@@ -35,7 +35,7 @@
     <icon src="assets/drawables/drawable-xhdpi/ic_launcher.png" platform="android" qualifier="xhdpi" />
     <icon src="assets/drawables/drawable-xxhdpi/ic_launcher.png" platform="android" qualifier="xxhdpi" />
 
-    <preference name="SplashMaintainAspectRatio" value="true" />
+    
     <!--<preference name="Fullscreen" value="true" />-->
 
 </widget>
