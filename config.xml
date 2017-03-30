@@ -30,6 +30,7 @@
     <splash src="assets/drawables/drawable-xxhdpi/splashscreen.png" density="port-xxhdpi"/>
     <splash src="assets/drawables/drawable-xxxhdpi/splashscreen.png" density="port-xxxhdpi"/>
 
-    <preference name="Fullscreen" value="true" /> 
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <!--<preference name="Fullscreen" value="true" />-->
 
 </widget>
