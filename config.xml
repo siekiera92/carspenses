@@ -10,9 +10,11 @@
 		Szymon Pogon, Paweł Rachwał
 	</author>
 	
-	<plugin name="cordova-plugin-splashscreen" spec="~4.0.2" />
+	
 
     <platform name="android">
+    <plugin name="cordova-plugin-splashscreen" spec="~4.0.2" />
+    
     <splash src="assets/drawables/drawable-hdpi/splashscreen_landscape.png" density="land-hdpi"/>
     <splash src="assets/drawables/drawable-ldpi/splashscreen_landscape.png" density="land-ldpi"/>
     <splash src="assets/drawables/drawable-mdpi/splashscreen_landscape.png" density="land-mdpi"/>
