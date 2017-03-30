@@ -1,5 +1,4 @@
 function init() {
-	StatusBar.hides
 	document.addEventListener("deviceready",onDeviceReady, false);
 }
 
