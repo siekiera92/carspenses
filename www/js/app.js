@@ -7,8 +7,10 @@ Backendless.initApp(APP_ID, API_KEY);
 Backendless.Data.of( "TestTable" ).save( { foo:"bar" } )
     .then( function( obj ) {
         console.log( "object saved. objectId " + obj.objectId )
+        alert("dobrze")
     } )
     .catch( function( error ) {
         console.log( "got error - " + error )
+        alert(error)
     })
                   
