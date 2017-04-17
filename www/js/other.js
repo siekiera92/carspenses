@@ -91,7 +91,7 @@ $( "#dodaj3" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
-        wopcji2 = "<br>" + $("#opcja2 option:selected").text();
+        wopcji2 = $("#opcja2 option:selected").text();
         var opcja3;
         $('#opcja3').html("");
         $('#opcja3').append('<option val="0" selected>Wybierz</option>');
@@ -119,7 +119,7 @@ $( "#dodaj4" ).click(function() {
         alert("Brak połączenia z siecią");
     } else {
         $("#ptext").html("");
-        wopcji3 = "<br>" + $("#opcja3 option:selected").text();
+        wopcji3 = $("#opcja3 option:selected").text();
         var opcja4;
         $('#opcja4').html("");
         var pom = 1;
@@ -129,7 +129,7 @@ $( "#dodaj4" ).click(function() {
             success: function(json){
                 
                 if(json[0].nazwa == "samochod") {
-                    $("#ptext").append(wopcji1 + wopcji2 + wopcji3);
+                    $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3);
                     window.location.href = 'index.html#podsumowanie';
                 } else {
                 for(var i=0;i<json.length;i++){
@@ -156,7 +156,7 @@ $( "#dodaj5" ).click(function() {
         alert("Brak połączenia z siecią");
     } else {
         $("#ptext").html("");
-        wopcji4 = "<br>" + $("#opcja4 option:selected").text();
+        wopcji4 = $("#opcja4 option:selected").text();
         var opcja5;
         $('#opcja5').html("");
         var pom = 1;
@@ -166,7 +166,7 @@ $( "#dodaj5" ).click(function() {
             success: function(json){
                 
                 if(json[0].nazwa == "samochod") {
-                    $("#ptext").append(wopcji1 + wopcji2 + wopcji3 + wopcji4);
+                    $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3 + "<br/>" + wopcji4);
                     window.location.href = 'index.html#podsumowanie';
                 } else {
                     for(var i=0;i<json.length;i++){
@@ -192,15 +192,35 @@ $( "#dodaj6" ).click(function() {
         alert("Brak połączenia z siecią");
     } else {
         $("#ptext").html("");
-        wopcji5 = "<br>" + $("#opcja5 option:selected").text();
+        wopcji5 = $("#opcja5 option:selected").text();
         $.ajax({
             url: "http://e123.linuxpl.eu/cars/index6.php?link=" + $( "#opcja5" ).val(),
             dataType: "JSON",
             success: function(json){
-                $("#ptext").append(wopcji1 + wopcji2 + wopcji3 + wopcji4 + wopcji5);
+                $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3 + "<br/>" + wopcji4 + "<br/>" + wopcji5);
                 window.location.href = 'index.html#podsumowanie';
                 
             }
         })
     }
+});
+
+$( "#dodaj7" ).click(function() {
+    function dodajSamochod(tx) {
+	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
+    }
+
+    var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+    db.transaction(dodajSamochod, errorCB, successCB);
+
+    function errorCB(err) {
+        alert("Error processing SQL: "+err.code);
+    }
+   
+    function successCB() {
+    }
+    
+    db.transaction(wybierzSamochod, errorCB);
+    window.location.href = 'index.html#stronaglowna';
+
 });
