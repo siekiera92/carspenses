@@ -23,7 +23,7 @@
     <!--<preference name="Fullscreen" value="true" />-->
 
     <plugin name="cordova-plugin-geolocation" spec="~2.4.2" />
-    <plugin name="Storage" value="org.apache.cordova.Storage" />
     <plugin name="cordova-plugin-network-information" spec="~1.3.2" />
+    <plugin name="cordova-plugin-whitelist" spec="1.1.0" />
 
 </widget>
