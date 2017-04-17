@@ -8,6 +8,7 @@ $('#panel-3').html(text);
 $('#panel-4').html(text);
 $('#panel-5').html(text);
 $('#panel-6').html(text);
+$('#panel-7').html(text);
 
 var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5;
 
