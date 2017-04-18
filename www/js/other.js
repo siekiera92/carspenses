@@ -10,7 +10,7 @@ $('#panel-5').html(text);
 $('#panel-6').html(text);
 $('#panel-7').html(text);
 
-var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink;
+var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalanie_mieszane, spalanie_trasa, sam_moc, sam_poj;
 
 function sprawdzPolaczenie() {
     var networkState = navigator.connection.type;
@@ -208,15 +208,36 @@ $( "#dodaj6" ).click(function() {
     }
 });
 
-$( "#dodaj7" ).click(function() {
+
+function dodajWpis() {
+    
+    $.ajax({
+            url: "http://e123.linuxpl.eu/cars/dane.php?link=" + wlink,
+            dataType: "JSON",
+            success: function(json){
+                for(var i=0;i<json.length;i++){
+                    spalanie_miasto = json[i].spalanie_miasto;
+                    spalanie_mieszane = json[i].spalanie_mieszany;
+                    spalanie_trasa = json[i].spalanie_trasa;
+                    sam_moc = json[i].moc;
+                    sam_poj = json[i].pojemnosc;
+
+                    dodatkoweInfo(wlink,spalanie_miasto,spalanie_mieszane,spalanie_trasa,sam_moc,sam_poj);
+                    window.location.href = 'index.html#stronaglowna';
+                }
+                
+            }
+        })
+
+};
+
+function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
     function dodajSamochod(tx) {
-	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "nr", "badanie", "ubezpieczenie", "'+wlink+'", "pojemnosc", "moc")');
+	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc, spal_miasto, spal_mieszane, spal_trasa) VALUES ("'+$('#sam-nazwa').val()+'", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "'+$('#sam-nrrej').val()+'", "'+$('#sam-badanie').val()+'", "'+$('#sam-ubezp').val()+'", "'+dlink+'", "'+dpoj+'", "'+dmoc+'", "'+dspalaniem+'", "'+dspalaniem2+'", "'+dspalaniet+'")');
     }
 
     var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
     db.transaction(dodajSamochod, errorCB, successCB);
     
-    window.location.href = 'index.html#stronaglowna';
-
-});
+}
 

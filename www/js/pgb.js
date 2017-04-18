@@ -5,7 +5,7 @@ function init() {
 
 function utworzDB(tx) {
 	//tx.executeSql('DROP TABLE IF EXISTS SAMOCHODY');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS SAMOCHODY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nazwa VARACHAR, opcja1 VARCHAR, opcja2 VARCHAR, opcja3 VARCHAR, opcja4 VARCHAR, opcja5 VARCHAR, nrrejestracyjny VARCHAR, badanie VARCHAR, ubezpieczenie VARCHAR, link VARCHAR, pojemnosc VARCHAR, moc VARCHAR)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS SAMOCHODY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nazwa VARACHAR, opcja1 VARCHAR, opcja2 VARCHAR, opcja3 VARCHAR, opcja4 VARCHAR, opcja5 VARCHAR, nrrejestracyjny VARCHAR, badanie VARCHAR, ubezpieczenie VARCHAR, link VARCHAR, pojemnosc VARCHAR, moc VARCHAR, spal_miasto VARCHAR, spal_mieszane VARCHAR, spal_trasa VARCHAR)');
 	//tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "opcja1", "opcja2", "opcja3", "opcja4", "opcja5", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
 	//tx.executeSql('INSERT INTO SAMOCHODY (data) VALUES ("Second row")');
 }
@@ -23,7 +23,7 @@ function querySuccess(tx, results) {
 		} else {
 		$('#samochody').html("");
 		for (var i=0; i<len; i++){
-			$('#samochody').append("<a href=\"#samochod-akcja\" class=\"ui-btn ui-corner-all\" id=\"sam\" onClick=\"wybranySamochod("+results.rows.item(i).id+")\">"+results.rows.item(i).opcja2+"</a>");
+			$('#samochody').append("<a href=\"#samochod-akcja\" class=\"ui-btn ui-corner-all\" id=\"sam\" onClick=\"wybranySamochod("+results.rows.item(i).id+")\">"+results.rows.item(i).nazwa+"</a>");
 		}
 	}
 }
@@ -66,11 +66,23 @@ function wybranySamochod(samid) {
 				if(results.rows.item(i).opcja4 != "undefined") {
 					$('#pinfo').append(results.rows.item(i).opcja5 + "<br/>");
 				}
+
+				$("#sam-usun").attr("onclick","usunSamochod("+samid+")");
 		}
 	}
 
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(samochodID, errorCB);
 
+}
+
+function usunSamochod(samid) {
+	function usunSam(tx) {
+		tx.executeSql('DELETE FROM SAMOCHODY where id = "' + samid + '"');
+	}
+	$("#pinfo").html("");
+	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+    db.transaction(usunSam, errorCB, successCB);
+	window.location.href = 'index.html#stronaglowna';
 }
 

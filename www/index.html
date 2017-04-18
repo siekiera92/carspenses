@@ -203,16 +203,12 @@
 							<input type="date" name="sam-badanie" id="sam-badanie" value="">
 							Koniec ubezpieczenia:<br/>
 							<input type="date" name="sam-ubezp" id="sam-ubezp" value="">
-							Pojemność silnika:<br/>
-							<input type="number" name="sam-poj" pattern="[0-9]*" id="sam-poj" value="">
-							Moc silnika:<br/>
-							<input type="number" name="sam-moc" pattern="[0-9]*" id="sam-moc" value="">
 						</div>
 						</form>
 					</p>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj7">Dalej7</a>
+				<a class="ui-btn ui-corner-all" onClick="dodajWpis()" id="dodaj7">Dalej7</a>
 			</div>
 
 			<div data-role="panel" id="panel-6" data-theme="b">
@@ -234,7 +230,7 @@
 					<h3>Podstawowe informacje</h3>
 					<p id="pinfo"></p>
 				</div>
-				
+				<a class="ui-btn ui-corner-all" onClick="usunSamochod()" id="sam-usun">Usuń pojazd</a>
 			</div>
 
 			<div data-role="panel" id="panel-7" data-theme="b">
