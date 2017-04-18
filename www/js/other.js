@@ -210,7 +210,7 @@ $( "#dodaj6" ).click(function() {
 
 $( "#dodaj7" ).click(function() {
     function dodajSamochod(tx) {
-	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
+	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "nr", "badanie", "ubezpieczenie", "'+wlink+'", "pojemnosc", "moc")');
     }
 
     var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
