@@ -10,7 +10,7 @@ $('#panel-5').html(text);
 $('#panel-6').html(text);
 $('#panel-7').html(text);
 
-var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5;
+var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink;
 
 function sprawdzPolaczenie() {
     var networkState = navigator.connection.type;
@@ -131,6 +131,7 @@ $( "#dodaj4" ).click(function() {
                 if(json[0].nazwa == "samochod") {
                     $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3);
                     window.location.href = 'index.html#podsumowanie';
+                    wlink = $( "#opcja3" ).val()
                 } else {
                 for(var i=0;i<json.length;i++){
                     if(pom == 1) {
@@ -168,6 +169,7 @@ $( "#dodaj5" ).click(function() {
                 if(json[0].nazwa == "samochod") {
                     $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3 + "<br/>" + wopcji4);
                     window.location.href = 'index.html#podsumowanie';
+                    wlink = $( "#opcja4" ).val();
                 } else {
                     for(var i=0;i<json.length;i++){
                     if(pom == 1) {
@@ -198,6 +200,7 @@ $( "#dodaj6" ).click(function() {
             dataType: "JSON",
             success: function(json){
                 $("#ptext").append(wopcji1 + "<br/>" + wopcji2 + "<br/>" + wopcji3 + "<br/>" + wopcji4 + "<br/>" + wopcji5);
+                wlink = $( "#opcja5" ).val()
                 window.location.href = 'index.html#podsumowanie';
                 
             }
@@ -212,15 +215,8 @@ $( "#dodaj7" ).click(function() {
 
     var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
     db.transaction(dodajSamochod, errorCB, successCB);
-
-    function errorCB(err) {
-        alert("Error processing SQL: "+err.code);
-    }
-   
-    function successCB() {
-    }
     
-    db.transaction(wybierzSamochod, errorCB);
     window.location.href = 'index.html#stronaglowna';
 
 });
+
