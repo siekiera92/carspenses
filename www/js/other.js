@@ -1,15 +1,3 @@
-var text = 
-    '<a href="#stronaglowna" class="ui-btn">Moje samochody</a>';
-
-$('#panel').html(text);
-$('#panel-1').html(text);
-$('#panel-2').html(text);
-$('#panel-3').html(text);
-$('#panel-4').html(text);
-$('#panel-5').html(text);
-$('#panel-6').html(text);
-$('#panel-7').html(text);
-
 var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalanie_mieszane, spalanie_trasa, sam_moc, sam_poj;
 
 function sprawdzPolaczenie() {
