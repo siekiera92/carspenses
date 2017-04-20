@@ -7,7 +7,7 @@ function utworzDB(tx) {
 	//tx.executeSql('DROP TABLE IF EXISTS SAMOCHODY');
 	//tx.executeSql('DROP TABLE IF EXISTS TANKOWANIA');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS SAMOCHODY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nazwa VARACHAR, opcja1 VARCHAR, opcja2 VARCHAR, opcja3 VARCHAR, opcja4 VARCHAR, opcja5 VARCHAR, nrrejestracyjny VARCHAR, badanie VARCHAR, ubezpieczenie VARCHAR, link VARCHAR, pojemnosc VARCHAR, moc VARCHAR, spal_miasto VARCHAR, spal_mieszane VARCHAR, spal_trasa VARCHAR)');
-	tx.executeSql('CREATE TABLE IF NOT EXISTS TANKOWANIA (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, data_tankowania VARCHAR, cena VARCHAR, litry VARCHAR)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS TANKOWANIA (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, stacja VARCHAR, data_tankowania VARCHAR, cena DECIMAL, litry DECIMAL, kilometry DECIMAL)');
 	//tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "opcja1", "opcja2", "opcja3", "opcja4", "opcja5", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
 	//tx.executeSql('INSERT INTO SAMOCHODY (data) VALUES ("Second row")');
 }
@@ -91,6 +91,7 @@ function wybranySamochod(samid) {
 function usunSamochod(samid) {
 	function usunSam(tx) {
 		tx.executeSql('DELETE FROM SAMOCHODY where id = "' + window.localStorage.getItem("samid") + '"');
+		tx.executeSql('DELETE FROM TANKOWANIA where samid = "' + window.localStorage.getItem("samid") + '"');
 	}
 	$("#pinfo").html("");
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
@@ -100,7 +101,7 @@ function usunSamochod(samid) {
 
 function dodajTankowanie() {
 	function dodajTank(tx) {
-		tx.executeSql('INSERT INTO TANKOWANIA (samid, data_tankowania, cena, litry) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#data-tankowania').val()+'","'+$('#cena').val()+'","'+$('#litry').val()+'")');
+		tx.executeSql('INSERT INTO TANKOWANIA (samid, stacja, data_tankowania, cena, litry, kilometry) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#stacja-benz').val()+'","'+$('#data-tankowania').val()+'","'+$('#cena').val()+'","'+$('#litry').val()+'","'+$('#kilometry').val()+'")');
 	}
 	$("#pinfo").html("");
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
@@ -115,15 +116,40 @@ function statystykiTankowania() {
 
 	function querySuccess2(tx, results) {
 		var len = results.rows.length;
-			$('#tankstat').html("");
+			$('#tankstat').append("<table>");
+			$('#tankstat').append("<thead><tr><th>Data</th><th>km</th><th>Stacja</th><th>Litry</th><th>Cena</th></tr></thead><tbody>")
 			for (var i=0; i<len; i++){
-				$('#tankstat').append(results.rows.item(i).cena + "<br/>");
+				$('#tankstat').append("<tr><th>"+results.rows.item(i).data_tankowania+"</th><th>"+results.rows.item(i).kilometry+"</th><th>"+results.rows.item(i).stacja+"</th><th>"+results.rows.item(i).litry+"</th><th>"+results.rows.item(i).cena+"</th></tr>");
 
 				
 		}
+		$('#tankstat').append("</tbody></table>");
 	}
 
 		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(tankowaniaID, errorCB);
+}
+
+function statystykiTankowania_SUMY() {
+	function tankowaniaID_SUMY(tx) {
+		tx.executeSql('SELECT sum(kilometry) as km, sum(litry) as ltr, avg(cena) as cena FROM TANKOWANIA where samid = '+window.localStorage.getItem("samid")+' group by samid', [], querySuccess3, errorCB);
+	}
+
+	function querySuccess3(tx, results) {
+		var len = results.rows.length;
+			$('#tankstat').html("");
+			for (var i=0; i<len; i++){
+				$('#tankstat').append("Suma km: "+results.rows.item(i).km);
+				$('#tankstat').append("<br/>Suma litrów: "+results.rows.item(i).ltr);
+				$('#tankstat').append("<br/>Średnia cena: "+results.rows.item(i).cena);
+				$('#tankstat').append("<br/>Średnie spalanie: "+Math.round((results.rows.item(i).ltr*100)/results.rows.item(i).km*100)/100);
+				$('#tankstat').append("<br/><br/>")
+		}
+	}
+
+		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+	db.transaction(tankowaniaID_SUMY, errorCB);
+
+	statystykiTankowania();
 }
 

@@ -1,4 +1,4 @@
-var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalanie_mieszane, spalanie_trasa, sam_moc, sam_poj;
+var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalanie_mieszane, spalanie_trasa, sam_moc, sam_poj, pm2, nazwastacji;
 
 function sprawdzPolaczenie() {
     var networkState = navigator.connection.type;
@@ -229,3 +229,59 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
     
 }
 
+function selectGEO() {
+var onSuccessGEO = function(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    var pm = 1;
+    var odleglosc, nazwastacji;
+    $.ajax({
+                  
+            url: "http://e123.linuxpl.eu/cars/mapa.php?lat="+lat+"&long="+long,
+            dataType: "JSON",
+            success: function(json1){
+                for(var i=0;i<json1.results.length;i++){
+                    //alert(json.results[i].name+": "+json.results[i].geometry.location.lat+": "+json.results[i].geometry.location.lng);
+                    
+                    
+                    //alert(json1.results[i].geometry.location.lat+" "+json1.results[i].geometry.location.lng);
+                    $.ajax({
+                  
+                        url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
+                        dataType: "JSON",
+                        success: function(json){
+                            
+                            for(var a=0;a<json.rows.length;a++){
+                                if(pm == 1) {
+                                    odleglosc = json.rows[a].elements[a].distance.value;
+                                    nazwastacji = json.nazwa;
+                                    pm = 0;
+                                } else {
+                                    if(odleglosc > json.rows[a].elements[a].distance.value) {
+                                        odleglosc = json.rows[a].elements[a].distance.value;
+                                        nazwastacji = json.nazwa;
+                                    }
+                                }
+                                
+                                    $('#stacja-benz').val(nazwastacji);
+                               
+                            }
+                            
+                        }
+                    })
+
+                    //
+                }
+            }
+        })
+    };
+ 
+    // onError Callback receives a PositionError object 
+    // 
+    function onErrorGEO(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+ 
+    navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO);
+}
