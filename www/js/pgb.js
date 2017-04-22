@@ -6,8 +6,10 @@ function init() {
 function utworzDB(tx) {
 	//tx.executeSql('DROP TABLE IF EXISTS SAMOCHODY');
 	//tx.executeSql('DROP TABLE IF EXISTS TANKOWANIA');
+	//tx.executeSql('DROP TABLE IF EXISTS NAPRAWY');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS SAMOCHODY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nazwa VARACHAR, opcja1 VARCHAR, opcja2 VARCHAR, opcja3 VARCHAR, opcja4 VARCHAR, opcja5 VARCHAR, nrrejestracyjny VARCHAR, badanie VARCHAR, ubezpieczenie VARCHAR, link VARCHAR, pojemnosc VARCHAR, moc VARCHAR, spal_miasto VARCHAR, spal_mieszane VARCHAR, spal_trasa VARCHAR)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS TANKOWANIA (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, stacja VARCHAR, data_tankowania VARCHAR, cena DECIMAL, litry DECIMAL, kilometry DECIMAL)');
+	tx.executeSql('CREATE TABLE IF NOT EXISTS NAPRAWY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, data_naprawy VARCHAR, zrobione TEXT, przebieg DECIMAL, koszt DECIMAL)');
 	//tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "opcja1", "opcja2", "opcja3", "opcja4", "opcja5", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
 	//tx.executeSql('INSERT INTO SAMOCHODY (data) VALUES ("Second row")');
 }
@@ -111,7 +113,7 @@ function dodajTankowanie() {
 
 function statystykiTankowania() {
 	function tankowaniaID(tx) {
-		tx.executeSql('SELECT * FROM TANKOWANIA where samid = '+window.localStorage.getItem("samid"), [], querySuccess2, errorCB);
+		tx.executeSql('SELECT * FROM TANKOWANIA where samid = '+window.localStorage.getItem("samid")+' order by id desc', [], querySuccess2, errorCB);
 	}
 
 	function querySuccess2(tx, results) {
@@ -153,3 +155,42 @@ function statystykiTankowania_SUMY() {
 	statystykiTankowania();
 }
 
+function dodajNaprawe() {
+	//alert($('#zrobiono').val())
+	//alert(window.localStorage.getItem("samid")+","+$('#data-naprawy').val()+","+$('#zrobiono').val()+","+$('#przebiegkm').val()+","+$('#koszt').val());
+	function dodajNapra(tx) {
+		tx.executeSql('INSERT INTO NAPRAWY (samid, data_naprawy, zrobione, przebieg, koszt) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#data-naprawy').val()+'","'+$('#zrobiono').val()+'","'+$('#przebiegkm').val()+'","'+$('#koszt').val()+'")');
+	}
+	$("#pinfo").html("");
+	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+    db.transaction(dodajNapra, errorCB, successCB);
+	window.location.href = 'index.html#stronaglowna';
+
+	
+}
+
+function statystykiNapraw() {
+	$("#naprawastat").html("");
+	$("#naprawastat").append("<h3>Statystyki napraw</h3>");
+	function naprawyID(tx) {
+		tx.executeSql('SELECT * FROM NAPRAWY where samid = '+window.localStorage.getItem("samid")+' order by id desc', [], querySuccess2na, errorCB);
+	}
+
+	function querySuccess2na(tx, results) {
+		var len = results.rows.length;
+			for (var i=0; i<len; i++){
+				$("#naprawastat").append("<p>");
+				$("#naprawastat").append("<b>Data naprawy:</b> " + results.rows.item(i).data_naprawy + "<br/>");
+				$("#naprawastat").append("<b>Przebieg:</b> " + results.rows.item(i).przebieg + " km<br/>");
+				$("#naprawastat").append("<b>Koszt:</b> " + results.rows.item(i).koszt + " zł<br/>");
+				$("#naprawastat").append("<b>Co zrobiono:</b> " + results.rows.item(i).zrobione + "<br/>");
+				$("#naprawastat").append("</p>");
+				if(len > 1 && len-1 != i) {
+					$("#naprawastat").append("<hr/>");
+				}
+		}
+	}
+
+		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+		db.transaction(naprawyID, errorCB);
+}

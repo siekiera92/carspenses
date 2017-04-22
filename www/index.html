@@ -36,9 +36,9 @@
 				</div>
 				<br/>
 				<a href="#wyboropcji1" class="ui-btn ui-corner-all" id="dodaj1">Dodaj pojazd</a><br/>
-				<a href="#listastacji" class="ui-btn ui-corner-all" id="zobaczstacje">Stacje paliw</a>
-				<a href="#listawarsztatow" class="ui-btn ui-corner-all" id="zobaczwarsztaty">Warsztaty</a>
-				<a href="#listamyjni" class="ui-btn ui-corner-all" id="zobaczmyjnie">Myjnie</a>
+				<a href="#listastacji" onClick="znajdzStacjeBenz()" class="ui-btn ui-corner-all" id="zobaczstacje">Stacje paliw</a>
+				<a href="#listawarsztatow" onclick="znajdzWarsztaty()" class="ui-btn ui-corner-all" id="zobaczwarsztaty">Warsztaty</a>
+				<a href="#listamyjni" onclick="znajdzMyjnie()" class="ui-btn ui-corner-all" id="zobaczmyjnie">Myjnie</a>
 				
 			</div>
 
@@ -214,8 +214,10 @@
 					<h3>Podstawowe informacje</h3>
 					<p id="pinfo"></p>
 				</div>
-				<a href="index.html#tankowanie" class="ui-btn ui-corner-all" id="dodaj-tankowanie">Dodaj tankowanie</a><br/>
+				<a href="index.html#tankowanie" class="ui-btn ui-corner-all" id="dodaj-tankowanie">Dodaj tankowanie</a>
+				<a href="index.html#naprawa" class="ui-btn ui-corner-all" id="dodaj-naprawe">Dodaj naprawę</a><br/>
 				<a href="index.html#statystyki-tankowanie" class="ui-btn ui-corner-all" onClick="statystykiTankowania_SUMY()" id="statystyki-tankowanie">Statystyki tankowania</a>
+				<a href="index.html#statystyki-napraw" class="ui-btn ui-corner-all" onClick="statystykiNapraw()" id="statystyki-tankowanie">Statystyki napraw</a>
 				<a href="#kalkulator" onclick="pobierzCenyBenzyny()" class="ui-btn ui-corner-all" id="czygaz">Czy warto założyć gaz?</a>
 				<br/>
 				<a class="ui-btn ui-corner-all" onClick="usunSamochod()" id="sam-usun">Usuń pojazd</a>
@@ -376,6 +378,70 @@
 					
 				</div>
 				<a class="ui-btn ui-corner-all" onClick="przeliczGaz()" id="gazprzelicz">Przelicz</a>
+			</div>
+
+
+		</div>
+
+
+		<!--Naprawa-->
+		<div data-role="page" id="naprawa">
+
+			<div data-role="header">
+				<h1>Carspenses</h1>
+				<a href="index.html#stronaglowna" data-theme="d" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Menu</a>
+			</div>
+
+			<div role="main" class="ui-content">
+				<div class="ui-body ui-body-a ui-corner-all">
+					<h3>Dodaj naprawe</h3>
+					<p id="tankuj">
+						<form>
+						<div class="ui-field-contain">
+							Co zrobiono:<br/>
+							<select name="zrobiono" id="zrobiono" multiple="multiple" data-native-menu="false">
+							    <option>Choose a few options:</option>
+							    <optgroup label="Coroczny przegląd">
+							        <option value="olej" selected="">Olej</option>
+							        <option value="filtr kabinowy">Filtr kabinowy</option>
+							        <option value="filtr powietrza">Filtr powietrza</option>
+							        <option value="płyn chłodniczy">Płyn chłodniczy</option>
+							    </optgroup>
+							    <optgroup label="Części">
+							        <option value="tarcze hamulcowe">Tarcze hamulcowe</option>
+							        <option value="klocki hamulcowe">Klocki hamulcowe</option>
+							        <option value="łożyska">Łożyska</option>
+							    </optgroup>
+							</select>
+							Przebieg samochodu:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="przebiegkm" id="przebiegkm" value="">
+							Koszt:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="koszt" id="koszt" value="">
+							Data naprawy:<br/>
+							<input type="date" name="data-naprawy" id="data-naprawy" value="">
+							
+						</div>
+						</form>
+					</p>
+				</div>
+				<a class="ui-btn ui-corner-all" onClick="dodajNaprawe()" id="naprawa">Dodaj naprawe</a>
+			</div>
+
+
+		</div>
+
+		<!--Statystyki napraw-->
+		<div data-role="page" id="statystyki-napraw">
+
+			<div data-role="header">
+				<h1>Carspenses</h1>
+				<a href="index.html#stronaglowna" data-theme="d" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Menu</a>
+			</div>
+
+			<div role="main" class="ui-content">
+				<div class="ui-body ui-body-a ui-corner-all" id="naprawastat">
+					
+				</div>
 			</div>
 
 

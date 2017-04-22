@@ -335,6 +335,7 @@ function przeliczGaz() {
 }
 
 
+function znajdzStacjeBenz() {
 //stacje benzynowe
 var onSuccessGEO2 = function(position) {
     var lat = position.coords.latitude;
@@ -345,13 +346,15 @@ var onSuccessGEO2 = function(position) {
             url: "http://e123.linuxpl.eu/cars/mapa.php?lat="+lat+"&long="+long,
             dataType: "JSON",
             success: function(json1){
+                
                 for(var i=0;i<json1.results.length;i++){
+                    alert(lat+" "+long+" "+json1.results[i].geometry.location.lat+" "+json1.results[i].geometry.location.lng+" "+json1.results[i].name);
                      $.ajax({
-                  
+                     
                         url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
                         dataType: "JSON",
                         success: function(json){
-                            
+                            //alert(json.rows.length);
                             for(var a=0;a<json.rows.length;a++){
                                     odleglosc = json.rows[a].elements[a].distance.value;
                                     nazwastacji = json.nazwa;
@@ -377,6 +380,9 @@ var onSuccessGEO2 = function(position) {
  
     navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2);
 
+}
+
+function znajdzWarsztaty() {
 //warsztaty
 var onSuccessGEO3 = function(position) {
     var lat = position.coords.latitude;
@@ -417,8 +423,11 @@ var onSuccessGEO3 = function(position) {
               'message: ' + error.message + '\n');
     }
  
-    navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3);
+   navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3);
+}
 
+
+function znajdzMyjnie() {
     //myjnie samochodowe
 var onSuccessGEO4 = function(position) {
     var lat = position.coords.latitude;
@@ -460,3 +469,4 @@ var onSuccessGEO4 = function(position) {
     }
  
     navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4);
+}
