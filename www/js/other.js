@@ -335,7 +335,7 @@ function przeliczGaz() {
 }
 
 
-
+//stacje benzynowe
 var onSuccessGEO2 = function(position) {
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
@@ -376,3 +376,87 @@ var onSuccessGEO2 = function(position) {
     }
  
     navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2);
+
+//warsztaty
+var onSuccessGEO3 = function(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    $("#lwarsztaty").html("");
+    $.ajax({
+                  
+            url: "http://e123.linuxpl.eu/cars/mapa_w.php?lat="+lat+"&long="+long,
+            dataType: "JSON",
+            success: function(json1){
+                for(var i=0;i<json1.results.length;i++){
+                     $.ajax({
+                  
+                        url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
+                        dataType: "JSON",
+                        success: function(json){
+                            
+                            for(var a=0;a<json.rows.length;a++){
+                                    odleglosc = json.rows[a].elements[a].distance.value;
+                                    nazwastacji = json.nazwa;
+                                    $("#lwarsztaty").append("<a href=\"http://maps.google.com/maps?saddr="+lat+","+long+"&daddr="+json.lat+", "+json.long+"\" class=\"ui-btn ui-corner-all\">"+json.nazwa+": "+json.rows[a].elements[a].distance.text+" ("+json.rows[a].elements[a].duration.text+")</a>");
+                       
+                               
+                            }
+                            
+                        }
+                    })
+                    //
+                }
+            }
+        })
+    };
+ 
+    // onError Callback receives a PositionError object 
+    // 
+    function onErrorGEO3(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+ 
+    navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3);
+
+    //myjnie samochodowe
+var onSuccessGEO4 = function(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    $("#lmyjnie").html("");
+    $.ajax({
+                  
+            url: "http://e123.linuxpl.eu/cars/mapa_m.php?lat="+lat+"&long="+long,
+            dataType: "JSON",
+            success: function(json1){
+                for(var i=0;i<json1.results.length;i++){
+                     $.ajax({
+                  
+                        url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
+                        dataType: "JSON",
+                        success: function(json){
+                            
+                            for(var a=0;a<json.rows.length;a++){
+                                    odleglosc = json.rows[a].elements[a].distance.value;
+                                    nazwastacji = json.nazwa;
+                                    $("#lmyjnie").append("<a href=\"http://maps.google.com/maps?saddr="+lat+","+long+"&daddr="+json.lat+", "+json.long+"\" class=\"ui-btn ui-corner-all\">"+json.nazwa+": "+json.rows[a].elements[a].distance.text+" ("+json.rows[a].elements[a].duration.text+")</a>");
+                       
+                               
+                            }
+                            
+                        }
+                    })
+                    //
+                }
+            }
+        })
+    };
+ 
+    // onError Callback receives a PositionError object 
+    // 
+    function onErrorGEO4(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+ 
+    navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4);
