@@ -285,3 +285,46 @@ var onSuccessGEO = function(position) {
  
     navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO);
 }
+
+
+
+var onSuccessGEO2 = function(position) {
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    $("#lstacje").html("");
+    $.ajax({
+                  
+            url: "http://e123.linuxpl.eu/cars/mapa.php?lat="+lat+"&long="+long,
+            dataType: "JSON",
+            success: function(json1){
+                for(var i=0;i<json1.results.length;i++){
+                     $.ajax({
+                  
+                        url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
+                        dataType: "JSON",
+                        success: function(json){
+                            
+                            for(var a=0;a<json.rows.length;a++){
+                                    odleglosc = json.rows[a].elements[a].distance.value;
+                                    nazwastacji = json.nazwa;
+                                    $("#lstacje").append("<a href=\"geo:"+json.lat+", "+json.long+"\" class=\"ui-btn ui-corner-all\">"+json.nazwa+": "+json.rows[a].elements[a].distance.text+" ("+json.rows[a].elements[a].duration.text+")</a>");
+                       
+                               
+                            }
+                            
+                        }
+                    })
+                    //
+                }
+            }
+        })
+    };
+ 
+    // onError Callback receives a PositionError object 
+    // 
+    function onErrorGEO2(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+ 
+    navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2);
