@@ -15,9 +15,11 @@
 		<link rel="stylesheet" href="./css/theme/other.css" />
 		<script src="./js/jquery-1.11.1.min.js"></script>
 		<script src="./js/jquery.mobile-1.4.5.min.js"></script>
-		
+		<script src="./js/jquery.babypaunch.spinner.min.js"></script>
+
 	</head>
 	<body onload="init()">
+		<div id="spin"></div>
 
 		<!--Strona główna-->
 		<div data-role="page" id="stronaglowna">
@@ -47,12 +49,11 @@
 
 		<!--Wybór opcji 1-->
 		<div data-role="page" id="wyboropcji1">
-
+			
 			<div data-role="header">
 				<h1>Carspenses</h1>
 				<a href="index.html#stronaglowna" data-theme="d" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Menu</a>
 			</div>
-
 			<div role="main" class="ui-content">
 				<div class="ui-body ui-body-a ui-corner-all">
 					<form>
@@ -63,7 +64,7 @@
 					</form>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj2">Dalej2</a>
+				<a class="ui-btn ui-corner-all" id="dodaj2">Dalej</a>
 			</div>
 
 
@@ -87,7 +88,7 @@
 					</form>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj3">Dalej3</a>
+				<a class="ui-btn ui-corner-all" id="dodaj3">Dalej</a>
 			</div>
 
 
@@ -111,7 +112,7 @@
 					</form>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj4">Dalej4</a>
+				<a class="ui-btn ui-corner-all" id="dodaj4">Dalej</a>
 			</div>
 
 
@@ -135,7 +136,7 @@
 					</form>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj5">Dalej5</a>
+				<a class="ui-btn ui-corner-all" id="dodaj5">Dalej</a>
 			</div>
 
 
@@ -159,7 +160,7 @@
 					</form>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" id="dodaj6">Dalej6</a>
+				<a class="ui-btn ui-corner-all" id="dodaj6">Dalej</a>
 			</div>
 
 
@@ -195,7 +196,7 @@
 					</p>
 				</div>
 				<br/>
-				<a class="ui-btn ui-corner-all" onClick="dodajWpis()" id="dodaj7">Dalej7</a>
+				<a class="ui-btn ui-corner-all" onClick="dodajWpis()" id="dodaj7">Dalej</a>
 			</div>
 
 
@@ -400,7 +401,7 @@
 						<div class="ui-field-contain">
 							Co zrobiono:<br/>
 							<select name="zrobiono" id="zrobiono" multiple="multiple" data-native-menu="false">
-							    <option>Choose a few options:</option>
+							    <option>Wybierz opcje:</option>
 							    <optgroup label="Coroczny przegląd">
 							        <option value="olej" selected="">Olej</option>
 							        <option value="filtr kabinowy">Filtr kabinowy</option>

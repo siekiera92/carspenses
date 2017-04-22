@@ -41,6 +41,7 @@ function errorCB(err) {
 function successCB() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(wybierzSamochod, errorCB);
+	 $("#spin").hide();
 }
 
     
@@ -140,12 +141,17 @@ function statystykiTankowania_SUMY() {
 	function querySuccess3(tx, results) {
 		var len = results.rows.length;
 			$('#tankstat').html("");
+		if(len == 0) {
+			alert("Nie masz dodanego żadnego tankowania...");
+			window.location.href = 'index.html#tankowanie';
+		} else {
 			for (var i=0; i<len; i++){
 				$('#tankstat').append("Suma km: "+results.rows.item(i).km);
 				$('#tankstat').append("<br/>Suma litrów: "+results.rows.item(i).ltr);
 				$('#tankstat').append("<br/>Średnia cena: "+results.rows.item(i).cena);
 				$('#tankstat').append("<br/>Średnie spalanie: "+Math.round((results.rows.item(i).ltr*100)/results.rows.item(i).km*100)/100);
 				$('#tankstat').append("<br/><br/>")
+		}
 		}
 	}
 
@@ -178,6 +184,11 @@ function statystykiNapraw() {
 
 	function querySuccess2na(tx, results) {
 		var len = results.rows.length;
+		$('#naprawastat').html("");
+		if(len == 0) {
+			alert("Nie masz dodanej żadnej naprawy...");
+			window.location.href = 'index.html#naprawa';
+		} else {
 			for (var i=0; i<len; i++){
 				$("#naprawastat").append("<p>");
 				$("#naprawastat").append("<b>Data naprawy:</b> " + results.rows.item(i).data_naprawy + "<br/>");
@@ -189,6 +200,7 @@ function statystykiNapraw() {
 					$("#naprawastat").append("<hr/>");
 				}
 		}
+	}
 	}
 
 		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);

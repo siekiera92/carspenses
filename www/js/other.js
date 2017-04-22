@@ -1,5 +1,7 @@
 var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalanie_mieszane, spalanie_trasa, sam_moc, sam_poj, pm2, nazwastacji;
 
+$("#spin").spinner();
+
 function sprawdzPolaczenie() {
     var networkState = navigator.connection.type;
  
@@ -20,12 +22,12 @@ function sprawdzPolaczenie() {
     return false;
 }
 
-
 $( "#dodaj1" ).click(function() {
     if(!sprawdzPolaczenie()) {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         var opcja1;
         $('#opcja1').html("");
         $('#opcja1').append('<option val="0" selected>Wybierz</option>');
@@ -42,8 +44,13 @@ $( "#dodaj1" ).click(function() {
 
 
             }
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
+       
+
     }
 });  
 
@@ -52,6 +59,7 @@ $( "#dodaj2" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         wopcji1 = $("#opcja1 option:selected").text();
         var opcja2;
         $('#opcja2').html("");
@@ -69,6 +77,9 @@ $( "#dodaj2" ).click(function() {
 
             }
             window.location.href = 'index.html#wyboropcji2';
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -79,6 +90,7 @@ $( "#dodaj3" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         wopcji2 = $("#opcja2 option:selected").text();
         var opcja3;
         $('#opcja3').html("");
@@ -96,6 +108,9 @@ $( "#dodaj3" ).click(function() {
 
             }
             window.location.href = 'index.html#wyboropcji3';
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -106,6 +121,7 @@ $( "#dodaj4" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         $("#ptext").html("");
         wopcji3 = $("#opcja3 option:selected").text();
         var opcja4;
@@ -134,6 +150,9 @@ $( "#dodaj4" ).click(function() {
                 window.location.href = 'index.html#wyboropcji4';
             }
             
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -144,6 +163,7 @@ $( "#dodaj5" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         $("#ptext").html("");
         wopcji4 = $("#opcja4 option:selected").text();
         var opcja5;
@@ -171,6 +191,9 @@ $( "#dodaj5" ).click(function() {
                 }
                     window.location.href = 'index.html#wyboropcji5';
                 }
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -181,6 +204,7 @@ $( "#dodaj6" ).click(function() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
         $("#ptext").html("");
         wopcji5 = $("#opcja5 option:selected").text();
         $.ajax({
@@ -191,6 +215,9 @@ $( "#dodaj6" ).click(function() {
                 wlink = $( "#opcja5" ).val()
                 window.location.href = 'index.html#podsumowanie';
                 
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -198,7 +225,7 @@ $( "#dodaj6" ).click(function() {
 
 
 function dodajWpis() {
-    
+    $("#spin").show();
     $.ajax({
             url: "http://e123.linuxpl.eu/cars/dane.php?link=" + wlink,
             dataType: "JSON",
@@ -214,12 +241,16 @@ function dodajWpis() {
                     window.location.href = 'index.html#stronaglowna';
                 }
                 
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
 
 };
 
 function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
+    $("#spin").show();
     function dodajSamochod(tx) {
 	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc, spal_miasto, spal_mieszane, spal_trasa) VALUES ("'+$('#sam-nazwa').val()+'", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "'+$('#sam-nrrej').val()+'", "'+$('#sam-badanie').val()+'", "'+$('#sam-ubezp').val()+'", "'+dlink+'", "'+dpoj+'", "'+dmoc+'", "'+dspalaniem+'", "'+dspalaniem2+'", "'+dspalaniet+'")');
     }
@@ -231,6 +262,7 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
 
 function selectGEO() {
 var onSuccessGEO = function(position) {
+    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     var pm = 1;
@@ -272,6 +304,9 @@ var onSuccessGEO = function(position) {
 
                     //
                 }
+            },
+            complete: function (json1) {
+            $("#spin").hide();
             }
         })
     };
@@ -293,6 +328,7 @@ function pobierzCenyBenzyny() {
         window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
     } else {
+        $("#spin").show();
     $.ajax({
             url: "http://e123.linuxpl.eu/cars/cenypaliw.php",
             dataType: "JSON",
@@ -314,6 +350,9 @@ function pobierzCenyBenzyny() {
                     
                 }
                 
+            },
+            complete: function (json) {
+            $("#spin").hide();
             }
         })
     }
@@ -338,6 +377,7 @@ function przeliczGaz() {
 function znajdzStacjeBenz() {
 //stacje benzynowe
 var onSuccessGEO2 = function(position) {
+    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     $("#lstacje").html("");
@@ -348,7 +388,7 @@ var onSuccessGEO2 = function(position) {
             success: function(json1){
                 
                 for(var i=0;i<json1.results.length;i++){
-                    alert(lat+" "+long+" "+json1.results[i].geometry.location.lat+" "+json1.results[i].geometry.location.lng+" "+json1.results[i].name);
+                    //alert(lat+" "+long+" "+json1.results[i].geometry.location.lat+" "+json1.results[i].geometry.location.lng+" "+json1.results[i].name);
                      $.ajax({
                      
                         url: "http://e123.linuxpl.eu/cars/stacje.php?lat="+lat+"&long="+long+"&dlat="+json1.results[i].geometry.location.lat+"&dlong="+json1.results[i].geometry.location.lng+"&stacja="+json1.results[i].name,
@@ -367,6 +407,9 @@ var onSuccessGEO2 = function(position) {
                     })
                     //
                 }
+            },
+            complete: function (json1) {
+            $("#spin").hide();
             }
         })
     };
@@ -385,9 +428,9 @@ var onSuccessGEO2 = function(position) {
 function znajdzWarsztaty() {
 //warsztaty
 var onSuccessGEO3 = function(position) {
+    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
-    $("#lwarsztaty").html("");
     $.ajax({
                   
             url: "http://e123.linuxpl.eu/cars/mapa_w.php?lat="+lat+"&long="+long,
@@ -412,6 +455,9 @@ var onSuccessGEO3 = function(position) {
                     })
                     //
                 }
+            },
+            complete: function (json1) {
+            $("#spin").hide();
             }
         })
     };
@@ -430,6 +476,7 @@ var onSuccessGEO3 = function(position) {
 function znajdzMyjnie() {
     //myjnie samochodowe
 var onSuccessGEO4 = function(position) {
+    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     $("#lmyjnie").html("");
@@ -457,8 +504,12 @@ var onSuccessGEO4 = function(position) {
                     })
                     //
                 }
+            },
+            complete: function (json1) {
+            $("#spin").hide();
             }
         })
+        
     };
  
     // onError Callback receives a PositionError object 
