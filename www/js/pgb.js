@@ -78,7 +78,7 @@ function wybranySamochod(samid) {
 				$('#pinfo').append("<br/>Spalanie w trasie: " + results.rows.item(i).spal_trasa);
 
 				$("#sam-usun").attr("onclick","usunSamochod("+samid+")");
-
+				window.localStorage.setItem("spalanie", results.rows.item(i).spal_miasto);
 				
 		}
 	}

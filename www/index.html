@@ -37,6 +37,7 @@
 				<br/>
 				<a href="#wyboropcji1" class="ui-btn ui-corner-all" id="dodaj1">Dodaj pojazd</a>
 				<a href="#listastacji" class="ui-btn ui-corner-all" id="zobaczstacje">Stacje paliw</a>
+				
 			</div>
 
 
@@ -213,6 +214,7 @@
 				</div>
 				<a href="index.html#tankowanie" class="ui-btn ui-corner-all" id="dodaj-tankowanie">Dodaj tankowanie</a><br/>
 				<a href="index.html#statystyki-tankowanie" class="ui-btn ui-corner-all" onClick="statystykiTankowania_SUMY()" id="statystyki-tankowanie">Statystyki tankowania</a>
+				<a href="#kalkulator" onclick="pobierzCenyBenzyny()" class="ui-btn ui-corner-all" id="czygaz">Czy warto założyć gaz?</a>
 				<br/>
 				<a class="ui-btn ui-corner-all" onClick="usunSamochod()" id="sam-usun">Usuń pojazd</a>
 			</div>
@@ -293,6 +295,43 @@
 					</p>
 					
 				</div>
+			</div>
+
+
+		</div>
+
+		<!--Lista stacji-->
+		<div data-role="page" id="kalkulator">
+
+			<div data-role="header">
+				<h1>Carspenses</h1>
+				<a href="index.html#stronaglowna" data-theme="d" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Menu</a>
+			</div>
+
+			<div role="main" class="ui-content">
+				<div class="ui-body ui-body-a ui-corner-all">
+					<h3>Kalkulator</h3>
+					<p id="obliczenia"></p>
+						<form>
+						<div class="ui-field-contain">
+							Cena benzyny:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="cenabenzyny" id="cenabenzyny" value="">
+							Cena gazu:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="cenagazu" id="cenagazu" value="">
+							Zużycie benzyny na 100 km:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="ilena100" id="ilena100" value="">
+							Zużycie gazu na 100 km:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="ilena100gaz" id="ilena100gaz" value="">
+							Miesięczny przebieg w km:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="przebieg" id="przebieg" value="">
+							Cena instalcji gazowej:<br/>
+							<input type="number" pattern="[0-9]+(\.[0-9][0-9]?)?" name="cenainstalacji" id="cenainstalacji" value="">
+						</div>
+						</form>
+					
+					
+				</div>
+				<a class="ui-btn ui-corner-all" onClick="przeliczGaz()" id="gazprzelicz">Przelicz</a>
 			</div>
 
 

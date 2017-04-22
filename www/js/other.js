@@ -287,6 +287,54 @@ var onSuccessGEO = function(position) {
 }
 
 
+function pobierzCenyBenzyny() {
+    $("#obliczenia").html("");
+    if(!sprawdzPolaczenie()) {
+        window.location.href = 'index.html#stronaglowna';
+        alert("Brak połączenia z siecią");
+    } else {
+    $.ajax({
+            url: "http://e123.linuxpl.eu/cars/cenypaliw.php",
+            dataType: "JSON",
+            success: function(json){
+                for(var i=0;i<json.length;i++){
+                    var pb = json[i].pb;
+                    var gaz = json[i].gaz;
+                    $('#cenabenzyny').val(parseFloat(pb.replace(",", ".")));
+                    $('#cenagazu').val(parseFloat(gaz.replace(",", ".")));
+                    var mysplit = window.localStorage.getItem("spalanie");
+                    var myarr = mysplit.split(" l/");
+                    
+                    if(window.localStorage.getItem("samid") != "undefined") {
+                      $("#ilena100").val(parseFloat(myarr[0].replace(",", ".")))
+                      $("#ilena100gaz").val(parseFloat(myarr[0].replace(",", "."))+3)
+                      $("#cenainstalacji").val(2700)
+                    }
+                    
+                    
+                }
+                
+            }
+        })
+    }
+};
+
+function przeliczGaz() {
+    $("#obliczenia").html("");
+    var cenapb = $('#cenabenzyny').val();
+    var przebieg = $('#przebieg').val();
+    var cenagaz = $('#cenagazu').val();
+    var ilena100 = $('#ilena100').val();
+    var ilena100gaz = $('#ilena100gaz').val();
+    var cenainstalacji = $('#cenainstalacji').val();
+    var mscoszcz = Math.round((((ilena100 * przebieg / 100) * cenapb) - ((ilena100gaz * przebieg / 100) * cenagaz))*100)/100;
+    $("#obliczenia").append("Miesięczne zużycie benzyny: " + (ilena100 * przebieg / 100));
+    $("#obliczenia").append("<br/>Miesięczne zużycie gazu: " + (ilena100gaz * przebieg / 100));
+    $("#obliczenia").append("<br/>Miesięczne oszczędności: " + mscoszcz);
+    $("#obliczenia").append("<br/>Zwrot po (ile miesięcy): " + Math.round(cenainstalacji / mscoszcz));
+}
+
+
 
 var onSuccessGEO2 = function(position) {
     var lat = position.coords.latitude;
@@ -307,7 +355,7 @@ var onSuccessGEO2 = function(position) {
                             for(var a=0;a<json.rows.length;a++){
                                     odleglosc = json.rows[a].elements[a].distance.value;
                                     nazwastacji = json.nazwa;
-                                    $("#lstacje").append("<a href=\"geo:"+json.lat+", "+json.long+"\" class=\"ui-btn ui-corner-all\">"+json.nazwa+": "+json.rows[a].elements[a].distance.text+" ("+json.rows[a].elements[a].duration.text+")</a>");
+                                    $("#lstacje").append("<a href=\"http://maps.google.com/maps?saddr="+lat+","+long+"&daddr="+json.lat+", "+json.long+"\" class=\"ui-btn ui-corner-all\">"+json.nazwa+": "+json.rows[a].elements[a].distance.text+" ("+json.rows[a].elements[a].duration.text+")</a>");
                        
                                
                             }
