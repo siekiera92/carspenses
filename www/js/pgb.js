@@ -131,8 +131,10 @@ function statystykiTankowania() {
 			$('#tankstat').append("<thead><tr><th>Data</th><th>km</th><th>Stacja</th><th>Litry</th><th>Cena</th></tr></thead><tbody>")
 			for (var i=0; i<len; i++){
 				$('#tankstat').append("<tr><th>"+results.rows.item(i).data_tankowania+"</th><th>"+results.rows.item(i).kilometry+"</th><th>"+results.rows.item(i).stacja+"</th><th>"+results.rows.item(i).litry+"</th><th>"+results.rows.item(i).cena+"</th></tr>");
-
-				
+				$('#tankstat').append("<tr><th colspan=\"5\"><a class=\"ui-btn ui-corner-all\" onClick=\"usunDane("+results.rows.item(i).id+", 0)\">Usuń tankowanie</a></th></tr>");
+				if(len > 1 && len-1 != i) {
+					$("#tankstat").append("<hr/>");
+				}
 		}
 		$('#tankstat').append("</tbody></table>");
 	}
@@ -156,8 +158,9 @@ function statystykiTankowania_SUMY() {
 			for (var i=0; i<len; i++){
 				$('#tankstat').append("Suma km: "+results.rows.item(i).km);
 				$('#tankstat').append("<br/>Suma litrów: "+results.rows.item(i).ltr);
-				$('#tankstat').append("<br/>Średnia cena: "+results.rows.item(i).cena);
+				$('#tankstat').append("<br/>Średnia cena: "+Math.round(results.rows.item(i).cena * 100) / 100);
 				$('#tankstat').append("<br/>Średnie spalanie: "+Math.round((results.rows.item(i).ltr*100)/results.rows.item(i).km*100)/100);
+				$('#tankstat').append("<br/><br/>Wydane środki: "+Math.round(results.rows.item(i).ltr*results.rows.item(i).cena * 100)/100 + " zł");
 				$('#tankstat').append("<br/><br/>")
 		}
 		}
@@ -206,6 +209,7 @@ function statystykiNapraw() {
 				$("#naprawastat").append("<b>Przebieg:</b> " + results.rows.item(i).przebieg + " km<br/>");
 				$("#naprawastat").append("<b>Koszt:</b> " + results.rows.item(i).koszt + " zł<br/>");
 				$("#naprawastat").append("<b>Co zrobiono:</b> " + re + "<br/>");
+				$("#naprawastat").append("<a class=\"ui-btn ui-corner-all\" onClick=\"usunDane("+results.rows.item(i).id+", 1)\">Usuń naprawe</a>");
 				$("#naprawastat").append("</p>");
 				if(len > 1 && len-1 != i) {
 					$("#naprawastat").append("<hr/>");
@@ -217,3 +221,23 @@ function statystykiNapraw() {
 		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 		db.transaction(naprawyID, errorCB);
 }
+
+function usunDane(idusun, cousuwam) {
+	var id_usun = idusun;
+	var co = cousuwam;
+
+	function usunTo(tx) {
+		if(co == 1) {
+			tx.executeSql('DELETE FROM NAPRAWY where id = "' + id_usun + '"');
+		} else {
+			tx.executeSql('DELETE FROM TANKOWANIA where id = "' + id_usun + '"');
+		}
+	}
+	$("#pinfo").html("");
+	if (confirm('Czy na pewno chcesz to usunąć?')) {
+	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+    db.transaction(usunTo, errorCB, successCB);
+	}
+	window.location.href = 'index.html#stronaglowna';
+}
+
