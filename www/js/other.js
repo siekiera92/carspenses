@@ -253,6 +253,28 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
     $("#spin").show();
     function dodajSamochod(tx) {
 	    tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc, spal_miasto, spal_mieszane, spal_trasa) VALUES ("'+$('#sam-nazwa').val()+'", "'+wopcji1+'", "'+wopcji2+'", "'+wopcji3+'", "'+wopcji4+'", "'+wopcji5+'", "'+$('#sam-nrrej').val()+'", "'+$('#sam-badanie').val()+'", "'+$('#sam-ubezp').val()+'", "'+dlink+'", "'+dpoj+'", "'+dmoc+'", "'+dspalaniem+'", "'+dspalaniem2+'", "'+dspalaniet+'")');
+        
+        var data1 = $('#sam-badanie').val().split("-");
+        var now = new Date();
+        var d1 = new Date(parseInt(data1[0]), parseInt(data1[1]) - 1, parseInt(data1[2]), now.getHours(), now.getMinutes(), now.getSeconds()+15, now.getMilliseconds());
+
+        var data2 = $('#sam-ubezp').val().split("-");
+        var d2 = new Date(parseInt(data2[0]), parseInt(data2[1]) - 1, parseInt(data2[2]), now.getHours(), now.getMinutes(), now.getSeconds()+35, now.getMilliseconds());
+
+        cordova.plugins.notification.local.schedule({
+            id: Math.floor((Math.random() * 1000000) + 1),
+            title: "Badanie techniczne",
+            text: "Następne badanie techniczne dla smochodu: "+$('#sam-nazwa').val()+", dnia: " + $('#sam-badanie').val(),
+            at: d1
+        });
+
+        cordova.plugins.notification.local.schedule({
+            id: Math.floor((Math.random() * 1000000) + 1),
+            title: "Ubezpieczenie",
+            text: "Koniec ubezpieczenia dla smochodu: "+$('#sam-nazwa').val()+", dnia: " + $('#sam-ubezp').val(),
+            at: d2
+        });
+
     }
 
     var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);

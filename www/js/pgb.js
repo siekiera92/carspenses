@@ -52,6 +52,7 @@ function onDeviceReady() {
 
 //START - pobieranie informacji o wybranym samochodzie
 function wybranySamochod(samid) {
+
 	window.localStorage.setItem("samid", samid);
 	function samochodID(tx) {
 		tx.executeSql('SELECT * FROM SAMOCHODY where id = ' + samid, [], querySuccess1, errorCB);
@@ -75,9 +76,18 @@ function wybranySamochod(samid) {
 				$('#pinfo').append("<br/>" + results.rows.item(i).nrrejestracyjny);
 				$('#pinfo').append("<br/>Badanie techniczne: " + results.rows.item(i).badanie);
 				$('#pinfo').append("<br/>Ubezpieczenie: " + results.rows.item(i).ubezpieczenie);
-				$('#pinfo').append("<br/><br/>Spalanie w mieście: " + results.rows.item(i).spal_miasto);
-				$('#pinfo').append("<br/>Spalanie w mieszane: " + results.rows.item(i).spal_mieszane);
-				$('#pinfo').append("<br/>Spalanie w trasie: " + results.rows.item(i).spal_trasa);
+				if(results.rows.item(i).spal_miasto!= "undefined") {
+					$('#pinfo').append("<br/><br/>Spalanie w mieście: " + results.rows.item(i).spal_miasto);
+				}
+				if(results.rows.item(i).spal_mieszane != "undefined") {
+						$('#pinfo').append("<br/>Spalanie w mieszane: " + results.rows.item(i).spal_mieszane);
+				}
+				if(results.rows.item(i).spal_trasa != "undefined") {
+					$('#pinfo').append("<br/>Spalanie w trasie: " + results.rows.item(i).spal_trasa);
+				}
+				
+				
+				
 
 				$("#sam-usun").attr("onclick","usunSamochod("+samid+")");
 				window.localStorage.setItem("spalanie", results.rows.item(i).spal_miasto);
