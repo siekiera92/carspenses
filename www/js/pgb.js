@@ -21,7 +21,7 @@ function wybierzSamochod(tx) {
 function querySuccess(tx, results) {
 	var len = results.rows.length;
 		if (len == 0) {
-			$('#samochody').html("Aktualnie nie masz samochodów do wyświetlenia. Dodaj nowy pojazd, aby móc dodawać do niego wydatki, prowadzić zaawansowane statystyki związane z wydatkami oraz sprawdzać najblisze stacje benzynowe lub warsztaty. W niektórych przypadkach do prawidłowego działania aplikacji wymagane jest połączenie z internetem oraz aktywny GPS.");
+			$('#samochody').html("Aktualnie nie masz samochodów do wyświetlenia. Dodaj nowy pojazd, aby móc dodawać do niego wydatki, prowadzić statystyki oraz sprawdzać najbliższe stacje benzynowe, myjnie samochodowe lub warsztaty. Do prawidłowego działania aplikacji wymagane jest połączenie z internetem oraz aktywny GPS.");
 		} else {
 		$('#samochody').html("");
 		for (var i=0; i<len; i++){
@@ -99,9 +99,12 @@ function usunSamochod(samid) {
 		tx.executeSql('DELETE FROM NAPRAWY where samid = "' + window.localStorage.getItem("samid") + '"');
 	}
 	$("#pinfo").html("");
+	if (confirm('Czy na pewno chcesz usunąć samochód i wszystkie dane z nim związane?')) {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
     db.transaction(usunSam, errorCB, successCB);
+	}
 	window.location.href = 'index.html#stronaglowna';
+	
 }
 //KONIEC - usuwanie wszystkich danych o samochodzie
 
@@ -170,7 +173,7 @@ function dodajNaprawe() {
 	//alert($('#zrobiono').val())
 	//alert(window.localStorage.getItem("samid")+","+$('#data-naprawy').val()+","+$('#zrobiono').val()+","+$('#przebiegkm').val()+","+$('#koszt').val());
 	function dodajNapra(tx) {
-		tx.executeSql('INSERT INTO NAPRAWY (samid, data_naprawy, zrobione, przebieg, koszt) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#data-naprawy').val()+'","'+$('#zrobiono').val()+'","'+$('#przebiegkm').val()+'","'+$('#koszt').val()+'")');
+		tx.executeSql('INSERT INTO NAPRAWY (samid, data_naprawy, zrobione, przebieg, koszt) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#data-naprawy').val()+'","'+$('#zrobiono').val()+'; '+$('#innerzeczy').val()+'","'+$('#przebiegkm').val()+'","'+$('#koszt').val()+'")');
 	}
 	$("#pinfo").html("");
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
@@ -195,11 +198,14 @@ function statystykiNapraw() {
 			window.location.href = 'index.html#naprawa';
 		} else {
 			for (var i=0; i<len; i++){
+				var str = results.rows.item(i).zrobione;
+				var re = str.split(",").join(", ");
+				str = str.replace(re, '');
 				$("#naprawastat").append("<p>");
 				$("#naprawastat").append("<b>Data naprawy:</b> " + results.rows.item(i).data_naprawy + "<br/>");
 				$("#naprawastat").append("<b>Przebieg:</b> " + results.rows.item(i).przebieg + " km<br/>");
 				$("#naprawastat").append("<b>Koszt:</b> " + results.rows.item(i).koszt + " zł<br/>");
-				$("#naprawastat").append("<b>Co zrobiono:</b> " + results.rows.item(i).zrobione + "<br/>");
+				$("#naprawastat").append("<b>Co zrobiono:</b> " + re + "<br/>");
 				$("#naprawastat").append("</p>");
 				if(len > 1 && len-1 != i) {
 					$("#naprawastat").append("<hr/>");

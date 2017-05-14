@@ -377,7 +377,7 @@ function przeliczGaz() {
 function znajdzStacjeBenz() {
 //stacje benzynowe
 var onSuccessGEO2 = function(position) {
-    $("#spin").show();
+    
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     $("#lstacje").html("");
@@ -420,7 +420,7 @@ var onSuccessGEO2 = function(position) {
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
- 
+    $("#spin").show();
     navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2);
 
 }
@@ -428,7 +428,7 @@ var onSuccessGEO2 = function(position) {
 function znajdzWarsztaty() {
 //warsztaty
 var onSuccessGEO3 = function(position) {
-    $("#spin").show();
+    
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     $.ajax({
@@ -468,7 +468,7 @@ var onSuccessGEO3 = function(position) {
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
- 
+   $("#spin").show();
    navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3);
 }
 
@@ -476,7 +476,6 @@ var onSuccessGEO3 = function(position) {
 function znajdzMyjnie() {
     //myjnie samochodowe
 var onSuccessGEO4 = function(position) {
-    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     $("#lmyjnie").html("");
@@ -518,6 +517,6 @@ var onSuccessGEO4 = function(position) {
         alert('code: '    + error.code    + '\n' +
               'message: ' + error.message + '\n');
     }
- 
+    $("#spin").show();
     navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4);
 }
