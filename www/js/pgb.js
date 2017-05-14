@@ -2,7 +2,7 @@ function init() {
 	document.addEventListener("deviceready",onDeviceReady, false);
 }
 
-
+//wszystkie potrzebne bazy
 function utworzDB(tx) {
 	//tx.executeSql('DROP TABLE IF EXISTS SAMOCHODY');
 	//tx.executeSql('DROP TABLE IF EXISTS TANKOWANIA');
@@ -10,11 +10,9 @@ function utworzDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS SAMOCHODY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nazwa VARACHAR, opcja1 VARCHAR, opcja2 VARCHAR, opcja3 VARCHAR, opcja4 VARCHAR, opcja5 VARCHAR, nrrejestracyjny VARCHAR, badanie VARCHAR, ubezpieczenie VARCHAR, link VARCHAR, pojemnosc VARCHAR, moc VARCHAR, spal_miasto VARCHAR, spal_mieszane VARCHAR, spal_trasa VARCHAR)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS TANKOWANIA (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, stacja VARCHAR, data_tankowania VARCHAR, cena DECIMAL, litry DECIMAL, kilometry DECIMAL)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS NAPRAWY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, data_naprawy VARCHAR, zrobione TEXT, przebieg DECIMAL, koszt DECIMAL)');
-	//tx.executeSql('INSERT INTO SAMOCHODY (nazwa, opcja1, opcja2, opcja3, opcja4, opcja5, nrrejestracyjny, badanie, ubezpieczenie, link, pojemnosc, moc) VALUES ("nazwa", "opcja1", "opcja2", "opcja3", "opcja4", "opcja5", "nr", "badanie", "ubezpieczenie", "link", "pojemnosc", "moc")');
-	//tx.executeSql('INSERT INTO SAMOCHODY (data) VALUES ("Second row")');
 }
 
-
+//START - pobieranie informacji o dodanych samochodach
 function wybierzSamochod(tx) {
 	tx.executeSql('SELECT * FROM SAMOCHODY', [], querySuccess, errorCB);
 }
@@ -36,8 +34,9 @@ function querySuccess(tx, results) {
 function errorCB(err) {
 	alert("Error processing SQL: "+err.code);
 }
+//KONIEC - pobieranie informacji o dodanych samochodach
 
-   
+//START - tworzenie baz danych jezeli nie istnieją
 function successCB() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(wybierzSamochod, errorCB);
@@ -49,9 +48,9 @@ function onDeviceReady() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(utworzDB, errorCB, successCB);
 }
+//KONIEC - tworzenie baz danych jezeli nie istnieją
 
-
-
+//START - pobieranie informacji o wybranym samochodzie
 function wybranySamochod(samid) {
 	window.localStorage.setItem("samid", samid);
 	function samochodID(tx) {
@@ -90,18 +89,23 @@ function wybranySamochod(samid) {
 	db.transaction(samochodID, errorCB);
 
 }
+//KONIEC - pobieranie informacji o wybranym samochodzie
 
+//START - usuwanie wszystkich danych o samochodzie
 function usunSamochod(samid) {
 	function usunSam(tx) {
 		tx.executeSql('DELETE FROM SAMOCHODY where id = "' + window.localStorage.getItem("samid") + '"');
 		tx.executeSql('DELETE FROM TANKOWANIA where samid = "' + window.localStorage.getItem("samid") + '"');
+		tx.executeSql('DELETE FROM NAPRAWY where samid = "' + window.localStorage.getItem("samid") + '"');
 	}
 	$("#pinfo").html("");
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
     db.transaction(usunSam, errorCB, successCB);
 	window.location.href = 'index.html#stronaglowna';
 }
+//KONIEC - usuwanie wszystkich danych o samochodzie
 
+//START - dodawanie danych o tankowaniu i trasie
 function dodajTankowanie() {
 	function dodajTank(tx) {
 		tx.executeSql('INSERT INTO TANKOWANIA (samid, stacja, data_tankowania, cena, litry, kilometry) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#stacja-benz').val()+'","'+$('#data-tankowania').val()+'","'+$('#cena').val()+'","'+$('#litry').val()+'","'+$('#kilometry').val()+'")');
@@ -111,6 +115,7 @@ function dodajTankowanie() {
     db.transaction(dodajTank, errorCB, successCB);
 	window.location.href = 'index.html#stronaglowna';
 }
+//KONIEC - dodawanie danych o tankowaniu i trasie
 
 function statystykiTankowania() {
 	function tankowaniaID(tx) {

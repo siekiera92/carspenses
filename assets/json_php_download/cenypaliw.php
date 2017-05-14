@@ -2,6 +2,8 @@
     header('Content-type: application/json');
     include('simple_html_dom.php');
 
+    //dane o cenach paliw pobierane są ze strony https://www.autocentrum.pl/paliwa/
+    //następnie z drugiej i szóstej kolumny pobierane są dane o cenie PB i gazu
     $html = file_get_html('https://www.autocentrum.pl/paliwa/');
     $benzyna = array();
     $gaz = array();
