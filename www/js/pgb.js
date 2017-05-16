@@ -118,15 +118,79 @@ function usunSamochod(samid) {
 }
 //KONIEC - usuwanie wszystkich danych o samochodzie
 
+//START - Zmiana daty badania technicznego lub ubezpieczenia
+function pobierzDaty() {
+	function datyID(tx) {
+		tx.executeSql('SELECT nazwa, badanie, ubezpieczenie FROM SAMOCHODY where id = '+window.localStorage.getItem("samid"), [], querySuccessDaty, errorCB);
+	}
+
+	function querySuccessDaty(tx, results) {
+		var len = results.rows.length;
+			for (var i=0; i<len; i++){
+				$("#sam-badanie-akt").val(results.rows.item(i).badanie);
+				$("#sam-ubezp-akt").val(results.rows.item(i).ubezpieczenie);
+				window.localStorage.setItem("samNazwa", results.rows.item(i).nazwa);
+		}
+		
+	}
+		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+		db.transaction(datyID, errorCB);
+	
+}
+//KONIEC - Zmiana daty badania technicznego lub ubezpieczenia
+
+//START - Zmiana daty badania technicznego lub ubezpieczenia
+function aktualizujDaty() {
+
+	function aktDaty(tx) {
+		tx.executeSql('UPDATE SAMOCHODY set badanie = "' + $("#sam-badanie-akt").val() + '", ubezpieczenie = "' + $("#sam-ubezp-akt").val() + '" where id = ' + window.localStorage.getItem("samid"));
+	
+		var data1 = $('#sam-badanie-akt').val().split("-");
+        var now = new Date();
+        var d1 = new Date(parseInt(data1[0]), parseInt(data1[1]) - 1, parseInt(data1[2]), now.getHours(), now.getMinutes(), now.getSeconds()+15, now.getMilliseconds());
+
+        var data2 = $('#sam-ubezp-akt').val().split("-");
+        var d2 = new Date(parseInt(data2[0]), parseInt(data2[1]) - 1, parseInt(data2[2]), now.getHours(), now.getMinutes(), now.getSeconds()+35, now.getMilliseconds());
+
+        cordova.plugins.notification.local.schedule({
+            id: Math.floor((Math.random() * 1000000) + 1),
+            title: "Badanie techniczne",
+            text: "Następne badanie techniczne dla smochodu: "+window.localStorage.getItem("samNazwa")+", dnia: " + $('#sam-badanie-akt').val(),
+            at: d1
+        });
+
+        cordova.plugins.notification.local.schedule({
+            id: Math.floor((Math.random() * 1000000) + 1),
+            title: "Ubezpieczenie",
+            text: "Koniec ubezpieczenia dla smochodu: "+window.localStorage.getItem("samNazwa")+", dnia: " + $('#sam-ubezp-akt').val(),
+            at: d2
+        });
+}
+
+	$("#pinfo").html("");
+	if (confirm('Czy na pewno chcesz zmienić daty?')) {
+	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+    db.transaction(aktDaty, errorCB, successCB);
+	}
+
+	window.location.href = 'index.html#stronaglowna';
+	
+}
+//KONIEC - Zmiana daty badania technicznego lub ubezpieczenia
+
 //START - dodawanie danych o tankowaniu i trasie
 function dodajTankowanie() {
-	function dodajTank(tx) {
-		tx.executeSql('INSERT INTO TANKOWANIA (samid, stacja, data_tankowania, cena, litry, kilometry) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#stacja-benz').val()+'","'+$('#data-tankowania').val()+'","'+$('#cena').val()+'","'+$('#litry').val()+'","'+$('#kilometry').val()+'")');
+	if($("#stacja-benz").val() == "" || $("#kilometry").val() == "" || $("#litry").val() == "" || $("#cena").val() == "" || $("#data-tankowania").val() == "") {
+		alert("Wypełnij wszystkie pola!");
+	} else {
+		function dodajTank(tx) {
+			tx.executeSql('INSERT INTO TANKOWANIA (samid, stacja, data_tankowania, cena, litry, kilometry) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#stacja-benz').val()+'","'+$('#data-tankowania').val()+'","'+$('#cena').val()+'","'+$('#litry').val()+'","'+$('#kilometry').val()+'")');
+		}
+		$("#pinfo").html("");
+		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+		db.transaction(dodajTank, errorCB, successCB);
+		window.location.href = 'index.html#stronaglowna';
 	}
-	$("#pinfo").html("");
-	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
-    db.transaction(dodajTank, errorCB, successCB);
-	window.location.href = 'index.html#stronaglowna';
 }
 //KONIEC - dodawanie danych o tankowaniu i trasie
 
@@ -185,6 +249,9 @@ function statystykiTankowania_SUMY() {
 function dodajNaprawe() {
 	//alert($('#zrobiono').val())
 	//alert(window.localStorage.getItem("samid")+","+$('#data-naprawy').val()+","+$('#zrobiono').val()+","+$('#przebiegkm').val()+","+$('#koszt').val());
+	if($("#zrobiono").val() == "" || $("#przebiegkm").val() == "" || $("#koszt").val() == "" || $("#data-naprawy").val() == "") {
+		alert("Wypełnij wszystkie pola!");
+	} else {
 	function dodajNapra(tx) {
 		tx.executeSql('INSERT INTO NAPRAWY (samid, data_naprawy, zrobione, przebieg, koszt) VALUES ("'+window.localStorage.getItem("samid")+'","'+$('#data-naprawy').val()+'","'+$('#zrobiono').val()+'; '+$('#innerzeczy').val()+'","'+$('#przebiegkm').val()+'","'+$('#koszt').val()+'")');
 	}
@@ -192,7 +259,7 @@ function dodajNaprawe() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
     db.transaction(dodajNapra, errorCB, successCB);
 	window.location.href = 'index.html#stronaglowna';
-
+	}
 	
 }
 

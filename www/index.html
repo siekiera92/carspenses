@@ -202,6 +202,34 @@
 
 		</div>
 
+		<!--Zmiana daty badania technicznego lub ubezpieczenia-->
+		<div data-role="page" id="zmien-daty">
+
+			<div data-role="header">
+				<h1>Carspenses</h1>
+				<a href="index.html#stronaglowna" data-theme="d" data-icon="home" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc">Menu</a>
+			</div>
+
+			<div role="main" class="ui-content">
+				<div class="ui-body ui-body-a ui-corner-all">
+					<p id="dodatkowe">
+						<form>
+						<div class="ui-field-contain">
+							Termin kolejnego badania technicznego:<br/>
+							<input type="date" name="sam-badanie-akt" id="sam-badanie-akt" value="">
+							Koniec ubezpieczenia:<br/>
+							<input type="date" name="sam-ubezp-akt" id="sam-ubezp-akt" value="">
+						</div>
+						</form>
+					</p>
+				</div>
+				<br/>
+				<a class="ui-btn ui-corner-all" onClick="aktualizujDaty()" id="aktDaty">Aktualizuj</a>
+			</div>
+
+
+		</div>
+
 		<!--Samochod akcja-->
 		<div data-role="page" id="samochod-akcja">
 
@@ -216,7 +244,8 @@
 					<p id="pinfo"></p>
 				</div>
 				<a href="index.html#tankowanie" class="ui-btn ui-corner-all" id="dodaj-tankowanie">Dodaj tankowanie</a>
-				<a href="index.html#naprawa" class="ui-btn ui-corner-all" id="dodaj-naprawe">Dodaj naprawę</a><br/>
+				<a href="index.html#naprawa" class="ui-btn ui-corner-all" id="dodaj-naprawe">Dodaj naprawę</a>
+				<a href="index.html#zmien-daty" class="ui-btn ui-corner-all" id="zmien-daty" onClick="pobierzDaty()">Zmień</a><br/>
 				<a href="index.html#statystyki-tankowanie" class="ui-btn ui-corner-all" onClick="statystykiTankowania_SUMY()" id="statystyki-tankowanie">Statystyki tankowania</a>
 				<a href="index.html#statystyki-napraw" class="ui-btn ui-corner-all" onClick="statystykiNapraw()" id="statystyki-tankowanie">Statystyki napraw</a>
 				<a href="#kalkulator" onclick="pobierzCenyBenzyny()" class="ui-btn ui-corner-all" id="czygaz">Czy warto założyć gaz?</a>

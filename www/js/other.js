@@ -225,6 +225,9 @@ $( "#dodaj6" ).click(function() {
 
 
 function dodajWpis() {
+    if($("#sam-nazwa").val() == "" || $("#sam-badanie").val() == "" || $("#sam-nrrej").val() == "" || $("#sam-ubezp").val() == "") {
+        alert("Wypełnij wszystkie pola!")
+    } else {
     $("#spin").show();
     $.ajax({
             url: "http://e123.linuxpl.eu/cars/dane.php?link=" + wlink,
@@ -246,7 +249,7 @@ function dodajWpis() {
             $("#spin").hide();
             }
         })
-
+    }
 };
 
 function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
@@ -381,6 +384,9 @@ function pobierzCenyBenzyny() {
 };
 
 function przeliczGaz() {
+    if($("#cenabenzyny").val() == "" || $("#cenagazu").val() == "" || $("#ilena100").val() == "" || $("#ilena100gaz").val() == "" || $("#przebieg").val() == "" || $("#cenainstalacji").val() == "") {
+        alert("Wypełnij wszystkie pola!");
+    } else {
     $("#obliczenia").html("");
     var cenapb = $('#cenabenzyny').val();
     var przebieg = $('#przebieg').val();
@@ -393,6 +399,7 @@ function przeliczGaz() {
     $("#obliczenia").append("<br/>Miesięczne zużycie gazu: " + (ilena100gaz * przebieg / 100));
     $("#obliczenia").append("<br/>Miesięczne oszczędności: " + mscoszcz);
     $("#obliczenia").append("<br/>Zwrot po (ile miesięcy): " + Math.round(cenainstalacji / mscoszcz));
+    }
 }
 
 
