@@ -444,6 +444,7 @@ function przeliczGaz() {
 
 //WYSZUKIWANIE NAJBLIZSZEJ STACJI BENZYNOWEJ
 function znajdzStacjeBenz() {
+    $("#lstacje").html("");
     if(!sprawdzPolaczenie()) {
         $("#spin").hide();
         alert("Brak połączenia z siecią");
@@ -503,6 +504,7 @@ var onSuccessGEO2 = function(position) {
 
 //WYSZUKIWANIE NAJBLIZSZEGO WARSZTATU
 function znajdzWarsztaty() {
+    $("#lwarsztaty").html("");
     if(!sprawdzPolaczenie()) {
         $("#spin").hide();
         alert("Brak połączenia z siecią");
@@ -514,6 +516,7 @@ var onSuccessGEO3 = function(position) {
     
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
+    $("#lwarsztaty").html("");
     $.ajax({
                   
             url: "http://e123.linuxpl.eu/cars/mapa_w.php?lat="+lat+"&long="+long,
@@ -559,6 +562,7 @@ var onSuccessGEO3 = function(position) {
 
 //WYSZUKIWANIE NAJBLIZSZEJ MYJNI
 function znajdzMyjnie() {
+    $("#lmyjnie").html("");
     if(!sprawdzPolaczenie()) {
         $("#spin").hide();
         alert("Brak połączenia z siecią");
@@ -611,3 +615,18 @@ var onSuccessGEO4 = function(position) {
     }
 }
 //WYSZUKIWANIE NAJBLIZSZEJ MYJNI
+
+//CZYSZCZENIE POL FORMULARZA
+function wyczyscDaneTankowaniaNaprawy() {
+    $("#stacja-benz").val("");
+    $("#kilometry").val("");
+    $("#litry").val("");
+    $("#cena").val("");
+    $("#data-tankowania").val("");
+
+    $("#innerzeczy").val("");
+    $("#przebiegkm").val("");
+    $("#koszt").val("");
+    $("#data-naprawy").val("");
+}
+//CZYSZCZENIE POL FORMULARZA
