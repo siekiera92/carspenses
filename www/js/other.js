@@ -24,8 +24,9 @@ function sprawdzPolaczenie() {
 
 $( "#dodaj1" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
         var opcja1;
@@ -56,8 +57,9 @@ $( "#dodaj1" ).click(function() {
 
 $( "#dodaj2" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
         wopcji1 = $("#opcja1 option:selected").text();
@@ -87,8 +89,9 @@ $( "#dodaj2" ).click(function() {
 
 $( "#dodaj3" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
         wopcji2 = $("#opcja2 option:selected").text();
@@ -118,8 +121,9 @@ $( "#dodaj3" ).click(function() {
 
 $( "#dodaj4" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
         $("#ptext").html("");
@@ -160,8 +164,10 @@ $( "#dodaj4" ).click(function() {
 
 $( "#dodaj5" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
+        
     } else {
         $("#spin").show();
         $("#ptext").html("");
@@ -201,8 +207,9 @@ $( "#dodaj5" ).click(function() {
 
 $( "#dodaj6" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
         $("#ptext").html("");
@@ -278,6 +285,11 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
             at: d2
         });
 
+        $("#sam-nazwa").val("");
+        $("#sam-nrrej").val("");
+        $("#sam-badanie").val("");
+        $("#sam-ubezp").val("");
+
     }
 
     var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
@@ -286,8 +298,12 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
 }
 
 function selectGEO() {
+    if(!sprawdzPolaczenie()) {
+        alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        
+    } else {
 var onSuccessGEO = function(position) {
-    $("#spin").show();
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
     var pm = 1;
@@ -339,20 +355,24 @@ var onSuccessGEO = function(position) {
     // onError Callback receives a PositionError object 
     // 
     function onErrorGEO(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
+       alert("Błąd GPS!");
+        $("#spin").hide();
     }
- 
-    navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO);
+    $("#spin").show();
+    navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO, { timeout: 15000, enableHighAccuracy: true });
+    }
 }
 
 
 function pobierzCenyBenzyny() {
     $("#obliczenia").html("");
     if(!sprawdzPolaczenie()) {
-        window.location.href = 'index.html#stronaglowna';
         alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
+        
     } else {
+        $("#przebieg").val("");
         $("#spin").show();
     $.ajax({
             url: "http://e123.linuxpl.eu/cars/cenypaliw.php",
@@ -395,8 +415,8 @@ function przeliczGaz() {
     var ilena100gaz = $('#ilena100gaz').val();
     var cenainstalacji = $('#cenainstalacji').val();
     var mscoszcz = Math.round((((ilena100 * przebieg / 100) * cenapb) - ((ilena100gaz * przebieg / 100) * cenagaz))*100)/100;
-    $("#obliczenia").append("Miesięczne zużycie benzyny: " + (ilena100 * przebieg / 100));
-    $("#obliczenia").append("<br/>Miesięczne zużycie gazu: " + (ilena100gaz * przebieg / 100));
+    $("#obliczenia").append("Miesięczne zużycie benzyny: " + Math.round((ilena100 * przebieg / 100)*100)/100);
+    $("#obliczenia").append("<br/>Miesięczne zużycie gazu: " + Math.round((ilena100gaz * przebieg / 100)*100)/100);
     $("#obliczenia").append("<br/>Miesięczne oszczędności: " + mscoszcz);
     $("#obliczenia").append("<br/>Zwrot po (ile miesięcy): " + Math.round(cenainstalacji / mscoszcz));
     }
@@ -404,6 +424,12 @@ function przeliczGaz() {
 
 
 function znajdzStacjeBenz() {
+    if(!sprawdzPolaczenie()) {
+        alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
+        
+    } else {
 //stacje benzynowe
 var onSuccessGEO2 = function(position) {
     
@@ -441,20 +467,28 @@ var onSuccessGEO2 = function(position) {
             $("#spin").hide();
             }
         })
+}
     };
  
     // onError Callback receives a PositionError object 
     // 
     function onErrorGEO2(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
+        alert("Błąd GPS!");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     }
     $("#spin").show();
-    navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2);
+    navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2, { timeout: 15000, enableHighAccuracy: true });
 
 }
 
 function znajdzWarsztaty() {
+    if(!sprawdzPolaczenie()) {
+        alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
+        
+    } else {
 //warsztaty
 var onSuccessGEO3 = function(position) {
     
@@ -489,20 +523,28 @@ var onSuccessGEO3 = function(position) {
             $("#spin").hide();
             }
         })
+}
     };
  
     // onError Callback receives a PositionError object 
     // 
     function onErrorGEO3(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
+        alert("Błąd GPS!");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     }
    $("#spin").show();
-   navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3);
+   navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3, { timeout: 15000, enableHighAccuracy: true });
 }
 
 
 function znajdzMyjnie() {
+    if(!sprawdzPolaczenie()) {
+        alert("Brak połączenia z siecią");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
+        
+    } else {
     //myjnie samochodowe
 var onSuccessGEO4 = function(position) {
     var lat = position.coords.latitude;
@@ -543,9 +585,11 @@ var onSuccessGEO4 = function(position) {
     // onError Callback receives a PositionError object 
     // 
     function onErrorGEO4(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
+        alert("Błąd GPS!");
+        $("#spin").hide();
+        window.location.href = 'index.html#stronaglowna';
     }
     $("#spin").show();
-    navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4);
+    navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4, { timeout: 15000, enableHighAccuracy: true });
+    }
 }
