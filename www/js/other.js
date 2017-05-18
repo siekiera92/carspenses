@@ -27,8 +27,8 @@ function sprawdzPolaczenie() {
 //POBIERANIE DANYCH O MARKACH
 $( "#dodaj1" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
@@ -58,8 +58,8 @@ $( "#dodaj1" ).click(function() {
 //POBIERANIE INFORMACJI O MODELU
 $( "#dodaj2" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
@@ -91,8 +91,8 @@ $( "#dodaj2" ).click(function() {
 //OPCJA 3 ZAWSZE JEST
 $( "#dodaj3" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
@@ -125,8 +125,8 @@ $( "#dodaj3" ).click(function() {
 //OPCJA 4 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 $( "#dodaj4" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
     } else {
         $("#spin").show();
@@ -172,8 +172,8 @@ $( "#dodaj4" ).click(function() {
 //OPCJA 5 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 $( "#dodaj5" ).click(function() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
         
     } else {
@@ -317,8 +317,8 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
 //AUTOMATYCZNA LOKALIZACJA STACJI PRZY DODAWANIU TANKOWANIA
 function selectGEO() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         
     } else {
 var onSuccessGEO = function(position) {
@@ -371,8 +371,8 @@ var onSuccessGEO = function(position) {
     };
  
     function onErrorGEO(error) {
-       alert("Błąd GPS!");
         $("#spin").hide();
+       alert("Błąd GPS!");
     }
     $("#spin").show();
     navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO, { timeout: 15000, enableHighAccuracy: true });
@@ -384,8 +384,8 @@ var onSuccessGEO = function(position) {
 function pobierzCenyBenzyny() {
     $("#obliczenia").html("");
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
         
     } else {
@@ -445,8 +445,8 @@ function przeliczGaz() {
 //WYSZUKIWANIE NAJBLIZSZEJ STACJI BENZYNOWEJ
 function znajdzStacjeBenz() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
         
     } else {
@@ -491,8 +491,8 @@ var onSuccessGEO2 = function(position) {
     };
  
     function onErrorGEO2(error) {
-        alert("Błąd GPS!");
         $("#spin").hide();
+        alert("Błąd GPS!");
         window.location.href = 'index.html#stronaglowna';
     }
     $("#spin").show();
@@ -504,8 +504,8 @@ var onSuccessGEO2 = function(position) {
 //WYSZUKIWANIE NAJBLIZSZEGO WARSZTATU
 function znajdzWarsztaty() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
         
     } else {
@@ -547,8 +547,8 @@ var onSuccessGEO3 = function(position) {
     };
  
     function onErrorGEO3(error) {
-        alert("Błąd GPS!");
         $("#spin").hide();
+        alert("Błąd GPS!");
         window.location.href = 'index.html#stronaglowna';
     }
    $("#spin").show();
@@ -601,8 +601,8 @@ var onSuccessGEO4 = function(position) {
     };
  
     function onErrorGEO4(error) {
-        alert("Błąd GPS!");
         $("#spin").hide();
+        alert("Błąd GPS!");
         window.location.href = 'index.html#stronaglowna';
     }
     $("#spin").show();
