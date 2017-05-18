@@ -20,7 +20,6 @@
     <icon src="assets/drawables/drawable-xxhdpi/ic_launcher.png" platform="android" qualifier="xxhdpi" />
 
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <!--<preference name="Fullscreen" value="true" />-->
 
     <plugin name="cordova-plugin-geolocation" spec="~2.4.2" />
     <plugin name="cordova-plugin-network-information" spec="~1.3.2" />

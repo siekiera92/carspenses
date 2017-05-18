@@ -19,7 +19,6 @@
         $all[$i]['link'] = $car_link[$i];
     }
 
-
     //print_r($all);
     echo json_encode($all);
 

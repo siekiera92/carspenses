@@ -2,7 +2,7 @@ function init() {
 	document.addEventListener("deviceready",onDeviceReady, false);
 }
 
-//wszystkie potrzebne bazy
+//TWORZENIE POTRZEBNYCH BAZ
 function utworzDB(tx) {
 	//tx.executeSql('DROP TABLE IF EXISTS SAMOCHODY');
 	//tx.executeSql('DROP TABLE IF EXISTS TANKOWANIA');
@@ -11,12 +11,12 @@ function utworzDB(tx) {
 	tx.executeSql('CREATE TABLE IF NOT EXISTS TANKOWANIA (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, stacja VARCHAR, data_tankowania VARCHAR, cena DECIMAL, litry DECIMAL, kilometry DECIMAL)');
 	tx.executeSql('CREATE TABLE IF NOT EXISTS NAPRAWY (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, samid INTEGER, data_naprawy VARCHAR, zrobione TEXT, przebieg DECIMAL, koszt DECIMAL)');
 }
+//TWORZENIE POTRZEBNYCH BAZ
 
-//START - pobieranie informacji o dodanych samochodach
+//POBIERANIE DANYCH O DODANYCH SAMOCHODACH
 function wybierzSamochod(tx) {
 	tx.executeSql('SELECT * FROM SAMOCHODY', [], querySuccess, errorCB);
 }
-
 
 function querySuccess(tx, results) {
 	var len = results.rows.length;
@@ -30,13 +30,12 @@ function querySuccess(tx, results) {
 	}
 }
 
-
 function errorCB(err) {
 	alert("Error processing SQL: "+err.code);
 }
-//KONIEC - pobieranie informacji o dodanych samochodach
+//POBIERANIE DANYCH O DODANYCH SAMOCHODACH
 
-//START - tworzenie baz danych jezeli nie istnieją
+//WYWOLANIE POBIERANIA DANYCH O SAMOCHODACH, JEZLI PRZESZLO PRAWIDLOWO ZAPYTANIE BAZY
 function successCB() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(wybierzSamochod, errorCB);
@@ -48,11 +47,10 @@ function onDeviceReady() {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(utworzDB, errorCB, successCB);
 }
-//KONIEC - tworzenie baz danych jezeli nie istnieją
+//WYWOLANIE POBIERANIA DANYCH O SAMOCHODACH, JEZLI PRZESZLO PRAWIDLOWO ZAPYTANIE BAZY
 
-//START - pobieranie informacji o wybranym samochodzie
+//POBIERANIE DANYCH Z BAZY O KONKRETNYM SAMOCHODZIE
 function wybranySamochod(samid) {
-
 	window.localStorage.setItem("samid", samid);
 	function samochodID(tx) {
 		tx.executeSql('SELECT * FROM SAMOCHODY where id = ' + samid, [], querySuccess1, errorCB);
@@ -85,9 +83,6 @@ function wybranySamochod(samid) {
 				if(results.rows.item(i).spal_trasa != "undefined") {
 					$('#pinfo').append("<br/>Spalanie w trasie: " + results.rows.item(i).spal_trasa);
 				}
-				
-				
-				
 
 				$("#sam-usun").attr("onclick","usunSamochod("+samid+")");
 				window.localStorage.setItem("spalanie", results.rows.item(i).spal_miasto);
@@ -99,9 +94,9 @@ function wybranySamochod(samid) {
 	db.transaction(samochodID, errorCB);
 
 }
-//KONIEC - pobieranie informacji o wybranym samochodzie
+//POBIERANIE DANYCH Z BAZY O KONKRETNYM SAMOCHODZIE
 
-//START - usuwanie wszystkich danych o samochodzie
+//USUWANIE SAMOCHODU Z BAZY
 function usunSamochod(samid) {
 	function usunSam(tx) {
 		tx.executeSql('DELETE FROM SAMOCHODY where id = "' + window.localStorage.getItem("samid") + '"');
@@ -111,14 +106,15 @@ function usunSamochod(samid) {
 	$("#pinfo").html("");
 	if (confirm('Czy na pewno chcesz usunąć samochód i wszystkie dane z nim związane?')) {
 	var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
+	//PONOWNE WYWOLANIE POBIERANIA SAMOCHODOW JEZELI USUWANIE PRZEBIEGLO POMYSLNIE
     db.transaction(usunSam, errorCB, successCB);
 	}
 	window.location.href = 'index.html#stronaglowna';
 	
 }
-//KONIEC - usuwanie wszystkich danych o samochodzie
+//USUWANIE SAMOCHODU Z BAZY
 
-//START - Zmiana daty badania technicznego lub ubezpieczenia
+//POBIERANIE DATY DO ZMIANY DATY UBEZPIECZENIA LUB BADANIA TECHNICZNEGO
 function pobierzDaty() {
 	function datyID(tx) {
 		tx.executeSql('SELECT nazwa, badanie, ubezpieczenie FROM SAMOCHODY where id = '+window.localStorage.getItem("samid"), [], querySuccessDaty, errorCB);
@@ -137,9 +133,9 @@ function pobierzDaty() {
 		db.transaction(datyID, errorCB);
 	
 }
-//KONIEC - Zmiana daty badania technicznego lub ubezpieczenia
+//POBIERANIE DATY DO ZMIANY DATY UBEZPIECZENIA LUB BADANIA TECHNICZNEGO
 
-//START - Zmiana daty badania technicznego lub ubezpieczenia
+//AKTUALIZACJA DAT UBEZPIECZENIA I BADANIA TECHNICZNEGO, DODANIE POWIADOMIEN
 function aktualizujDaty() {
 
 	function aktDaty(tx) {
@@ -176,9 +172,9 @@ function aktualizujDaty() {
 	window.location.href = 'index.html#stronaglowna';
 	
 }
-//KONIEC - Zmiana daty badania technicznego lub ubezpieczenia
+//AKTUALIZACJA DAT UBEZPIECZENIA I BADANIA TECHNICZNEGO, DODANIE POWIADOMIEN
 
-//START - dodawanie danych o tankowaniu i trasie
+//DODAWANIE TANKOWANIA DO BAZY, PRZEJSCIE NA GLOWNY EKRAN I ODSWIEZENIE DANYCH
 function dodajTankowanie() {
 	if($("#stacja-benz").val() == "" || $("#kilometry").val() == "" || $("#litry").val() == "" || $("#cena").val() == "" || $("#data-tankowania").val() == "") {
 		alert("Wypełnij wszystkie pola!");
@@ -192,8 +188,9 @@ function dodajTankowanie() {
 		window.location.href = 'index.html#stronaglowna';
 	}
 }
-//KONIEC - dodawanie danych o tankowaniu i trasie
+//DODAWANIE TANKOWANIA DO BAZY, PRZEJSCIE NA GLOWNY EKRAN I ODSWIEZENIE DANYCH
 
+//POBIERANIE DANYCH O WSZYSTKICH TANKOWANIACH DLA SAMOCHODU
 function statystykiTankowania() {
 	function tankowaniaID(tx) {
 		tx.executeSql('SELECT * FROM TANKOWANIA where samid = '+window.localStorage.getItem("samid")+' order by id desc', [], querySuccess2, errorCB);
@@ -216,7 +213,9 @@ function statystykiTankowania() {
 		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 	db.transaction(tankowaniaID, errorCB);
 }
+//POBIERANIE DANYCH O WSZYSTKICH TANKOWANIACH DLA SAMOCHODU
 
+//WYLICZANIE SUM I SREDNICH O TANKOWANIU, WYWOLANIE POBIERANIA POJEDNYNCZYCH TANKOWAN
 function statystykiTankowania_SUMY() {
 	function tankowaniaID_SUMY(tx) {
 		tx.executeSql('SELECT sum(kilometry) as km, sum(litry) as ltr, avg(cena) as cena FROM TANKOWANIA where samid = '+window.localStorage.getItem("samid")+' group by samid', [], querySuccess3, errorCB);
@@ -245,7 +244,9 @@ function statystykiTankowania_SUMY() {
 
 	statystykiTankowania();
 }
+//WYLICZANIE SUM I SREDNICH O TANKOWANIU, WYWOLANIE POBIERANIA POJEDNYNCZYCH TANKOWAN
 
+//DODAWANIE NAPRAWY
 function dodajNaprawe() {
 	//alert($('#zrobiono').val())
 	//alert(window.localStorage.getItem("samid")+","+$('#data-naprawy').val()+","+$('#zrobiono').val()+","+$('#przebiegkm').val()+","+$('#koszt').val());
@@ -262,7 +263,9 @@ function dodajNaprawe() {
 	}
 	
 }
+//DODAWANIE NAPRAWY
 
+//POBIERANIE STATYSTYK NAPRAW
 function statystykiNapraw() {
 	$("#naprawastat").html("");
 	$("#naprawastat").append("<h3>Statystyki napraw</h3>");
@@ -298,7 +301,9 @@ function statystykiNapraw() {
 		var db = window.openDatabase("CarspensesDatabase", "1.0", "Carspenses", 200000);
 		db.transaction(naprawyID, errorCB);
 }
+//POBIERANIE STATYSTYK NAPRAW
 
+//USUWANIE NAPRAW I TANKOWAN, ID + 0/1 W ZALEZNOSCI CZY TANKOWANIE CZY NAPRAWA
 function usunDane(idusun, cousuwam) {
 	var id_usun = idusun;
 	var co = cousuwam;
@@ -317,4 +322,4 @@ function usunDane(idusun, cousuwam) {
 	}
 	window.location.href = 'index.html#stronaglowna';
 }
-
+//USUWANIE NAPRAW I TANKOWAN, ID + 0/1 W ZALEZNOSCI CZY TANKOWANIE CZY NAPRAWA

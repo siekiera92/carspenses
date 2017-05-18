@@ -2,10 +2,11 @@ var wopcji1, wopcji2, wopcji3, wopcji4, wopcji5, wlink, spalanie_miasto, spalani
 
 $("#spin").spinner();
 
+//SPRAWDZANIE POŁĄCZENIA WIFI
 function sprawdzPolaczenie() {
     var networkState = navigator.connection.type;
- 
     var states = {};
+
     states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
     states[Connection.WIFI]     = 'WiFi connection';
@@ -17,11 +18,13 @@ function sprawdzPolaczenie() {
  
     if(states[networkState] == "WiFi connection" || states[networkState] == "Cell 3G connection" || states[networkState] == "Cell 4G connection" ) {
         return true;
-    } 
+    }
 
     return false;
 }
+//SPRAWDZANIE POŁĄCZENIA WIFI
 
+//POBIERANIE DANYCH O MARKACH
 $( "#dodaj1" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -42,19 +45,17 @@ $( "#dodaj1" ).click(function() {
                 opcja1 = new Option(json[i].link, json[i].link);
                 $(opcja1).html(json[i].nazwa);
                 $("#opcja1").append(opcja1);
-
-
             }
             },
             complete: function (json) {
             $("#spin").hide();
             }
         })
-       
-
     }
-});  
+});
+//POBIERANIE DANYCH O MARKACH
 
+//POBIERANIE INFORMACJI O MODELU
 $( "#dodaj2" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -75,9 +76,7 @@ $( "#dodaj2" ).click(function() {
                 opcja2 = new Option(json[i].link, json[i].link);
                 $(opcja2).html(json[i].nazwa);
                 $("#opcja2").append(opcja2);
-
-
-            }
+                }
             window.location.href = 'index.html#wyboropcji2';
             },
             complete: function (json) {
@@ -85,8 +84,11 @@ $( "#dodaj2" ).click(function() {
             }
         })
     }
-});  
+}); 
+//POBIERANIE INFORMACJI O MODELU
 
+//POBIERANIE DALSZYCH INFORMACJI 1 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 3 ZAWSZE JEST
 $( "#dodaj3" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -107,8 +109,6 @@ $( "#dodaj3" ).click(function() {
                 opcja3 = new Option(json[i].link, json[i].link);
                 $(opcja3).html(json[i].nazwa);
                 $("#opcja3").append(opcja3);
-                
-
             }
             window.location.href = 'index.html#wyboropcji3';
             },
@@ -118,7 +118,11 @@ $( "#dodaj3" ).click(function() {
         })
     }
 });
+//POBIERANIE DALSZYCH INFORMACJI 1 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 3 ZAWSZE JEST
 
+//POBIERANIE DALSZYCH INFORMACJI 2 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 4 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 $( "#dodaj4" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -161,7 +165,11 @@ $( "#dodaj4" ).click(function() {
         })
     }
 });
+//POBIERANIE DALSZYCH INFORMACJI 2 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 4 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 
+//POBIERANIE DALSZYCH INFORMACJI 3 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 5 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 $( "#dodaj5" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -204,7 +212,10 @@ $( "#dodaj5" ).click(function() {
         })
     }
 });
+//POBIERANIE DALSZYCH INFORMACJI 3 - MOZE TO BYĆ TYP NADWOZIA, ROCZNIK, SILNIK ITP. ZALEZNE OD AUTOCENTRUM.PL
+//OPCJA 5 NIE ZAWSZE JEST. JEZELI ZWRACA SAMOCHOD W JSON TO ZNACZY ZE JEST TO KONCOWA INFORMACJA
 
+//PRZECHODZI DO PODSUMOWANIA, OSTATNI ETAP WYBORU
 $( "#dodaj6" ).click(function() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -229,8 +240,10 @@ $( "#dodaj6" ).click(function() {
         })
     }
 });
+//PRZECHODZI DO PODSUMOWANIA, OSTATNI ETAP WYBORU
 
-
+//PO WPISANIU DANYCH W PODSUMOWANIU, FUNKCJA WYWYOŁYWANA PO PRZYCISKU, WYWOŁUJE FUNKCJE DODATKOWE INFO GDZIE DOŁĄCZANE SĄ DALESZE INFORMACJE
+//POBIERA SZCZEGÓŁOWE DANE O SAMOCHODZIE, TAKIE JAK SPALANIE, KM, POJEMNOSC
 function dodajWpis() {
     if($("#sam-nazwa").val() == "" || $("#sam-badanie").val() == "" || $("#sam-nrrej").val() == "" || $("#sam-ubezp").val() == "") {
         alert("Wypełnij wszystkie pola!")
@@ -258,7 +271,10 @@ function dodajWpis() {
         })
     }
 };
+//PO WPISANIU DANYCH W PODSUMOWANIU, FUNKCJA WYWYOŁYWANA PO PRZYCISKU, WYWOŁUJE FUNKCJE DODATKOWE INFO GDZIE DOŁĄCZANE SĄ DALESZE INFORMACJE
+//POBIERA SZCZEGÓŁOWE DANE O SAMOCHODZIE, TAKIE JAK SPALANIE, KM, POJEMNOSC
 
+//WSTAWIA INFORMACJE DO BAZY, CZYSCI POLA, DODAJE POWIADOMIENIA
 function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
     $("#spin").show();
     function dodajSamochod(tx) {
@@ -296,7 +312,9 @@ function dodatkoweInfo(dlink, dspalaniem, dspalaniem2, dspalaniet, dmoc, dpoj) {
     db.transaction(dodajSamochod, errorCB, successCB);
     
 }
+//WSTAWIA INFORMACJE DO BAZY, CZYSCI POLA, DODAJE POWIADOMIENIA
 
+//AUTOMATYCZNA LOKALIZACJA STACJI PRZY DODAWANIU TANKOWANIA
 function selectGEO() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -352,8 +370,6 @@ var onSuccessGEO = function(position) {
         })
     };
  
-    // onError Callback receives a PositionError object 
-    // 
     function onErrorGEO(error) {
        alert("Błąd GPS!");
         $("#spin").hide();
@@ -362,8 +378,9 @@ var onSuccessGEO = function(position) {
     navigator.geolocation.getCurrentPosition(onSuccessGEO, onErrorGEO, { timeout: 15000, enableHighAccuracy: true });
     }
 }
+//AUTOMATYCZNA LOKALIZACJA STACJI PRZY DODAWANIU TANKOWANIA
 
-
+//POBIERANIE CEN BENZYNY I GAZU Z AUTOCENTRUM.PL
 function pobierzCenyBenzyny() {
     $("#obliczenia").html("");
     if(!sprawdzPolaczenie()) {
@@ -402,7 +419,9 @@ function pobierzCenyBenzyny() {
         })
     }
 };
+//POBIERANIE CEN BENZYNY I GAZU Z AUTOCENTRUM.PL
 
+//WYKONYWANIE WYLICZEŃ W KALKULATORZE
 function przeliczGaz() {
     if($("#cenabenzyny").val() == "" || $("#cenagazu").val() == "" || $("#ilena100").val() == "" || $("#ilena100gaz").val() == "" || $("#przebieg").val() == "" || $("#cenainstalacji").val() == "") {
         alert("Wypełnij wszystkie pola!");
@@ -421,8 +440,9 @@ function przeliczGaz() {
     $("#obliczenia").append("<br/>Zwrot po (ile miesięcy): " + Math.round(cenainstalacji / mscoszcz));
     }
 }
+//WYKONYWANIE WYLICZEŃ W KALKULATORZE
 
-
+//WYSZUKIWANIE NAJBLIZSZEJ STACJI BENZYNOWEJ
 function znajdzStacjeBenz() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -470,8 +490,6 @@ var onSuccessGEO2 = function(position) {
 }
     };
  
-    // onError Callback receives a PositionError object 
-    // 
     function onErrorGEO2(error) {
         alert("Błąd GPS!");
         $("#spin").hide();
@@ -481,7 +499,9 @@ var onSuccessGEO2 = function(position) {
     navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2, { timeout: 15000, enableHighAccuracy: true });
 
 }
+//WYSZUKIWANIE NAJBLIZSZEJ STACJI BENZYNOWEJ
 
+//WYSZUKIWANIE NAJBLIZSZEGO WARSZTATU
 function znajdzWarsztaty() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -526,8 +546,6 @@ var onSuccessGEO3 = function(position) {
 }
     };
  
-    // onError Callback receives a PositionError object 
-    // 
     function onErrorGEO3(error) {
         alert("Błąd GPS!");
         $("#spin").hide();
@@ -536,8 +554,9 @@ var onSuccessGEO3 = function(position) {
    $("#spin").show();
    navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3, { timeout: 15000, enableHighAccuracy: true });
 }
+//WYSZUKIWANIE NAJBLIZSZEGO WARSZTATU
 
-
+//WYSZUKIWANIE NAJBLIZSZEJ MYJNI
 function znajdzMyjnie() {
     if(!sprawdzPolaczenie()) {
         alert("Brak połączenia z siecią");
@@ -545,7 +564,6 @@ function znajdzMyjnie() {
         window.location.href = 'index.html#stronaglowna';
         
     } else {
-    //myjnie samochodowe
 var onSuccessGEO4 = function(position) {
     var lat = position.coords.latitude;
     var long = position.coords.longitude;
@@ -582,8 +600,6 @@ var onSuccessGEO4 = function(position) {
         
     };
  
-    // onError Callback receives a PositionError object 
-    // 
     function onErrorGEO4(error) {
         alert("Błąd GPS!");
         $("#spin").hide();
@@ -593,3 +609,4 @@ var onSuccessGEO4 = function(position) {
     navigator.geolocation.getCurrentPosition(onSuccessGEO4, onErrorGEO4, { timeout: 15000, enableHighAccuracy: true });
     }
 }
+//WYSZUKIWANIE NAJBLIZSZEJ MYJNI
