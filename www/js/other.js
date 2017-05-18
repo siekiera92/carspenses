@@ -559,8 +559,8 @@ var onSuccessGEO3 = function(position) {
 //WYSZUKIWANIE NAJBLIZSZEJ MYJNI
 function znajdzMyjnie() {
     if(!sprawdzPolaczenie()) {
-        alert("Brak połączenia z siecią");
         $("#spin").hide();
+        alert("Brak połączenia z siecią");
         window.location.href = 'index.html#stronaglowna';
         
     } else {
