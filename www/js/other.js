@@ -488,7 +488,7 @@ var onSuccessGEO2 = function(position) {
             }
         })
 }
-    };
+    
  
     function onErrorGEO2(error) {
         $("#spin").hide();
@@ -497,7 +497,7 @@ var onSuccessGEO2 = function(position) {
     }
     $("#spin").show();
     navigator.geolocation.getCurrentPosition(onSuccessGEO2, onErrorGEO2, { timeout: 15000, enableHighAccuracy: true });
-
+    }
 }
 //WYSZUKIWANIE NAJBLIZSZEJ STACJI BENZYNOWEJ
 
@@ -544,7 +544,7 @@ var onSuccessGEO3 = function(position) {
             }
         })
 }
-    };
+    
  
     function onErrorGEO3(error) {
         $("#spin").hide();
@@ -553,6 +553,7 @@ var onSuccessGEO3 = function(position) {
     }
    $("#spin").show();
    navigator.geolocation.getCurrentPosition(onSuccessGEO3, onErrorGEO3, { timeout: 15000, enableHighAccuracy: true });
+    }
 }
 //WYSZUKIWANIE NAJBLIZSZEGO WARSZTATU
 
